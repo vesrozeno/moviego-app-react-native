@@ -1,4 +1,5 @@
 import React from "react";
+import { Text, View, Image } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeNavigationTabs from "./BottomTabs";
 import Login from "../Screens/Login";
@@ -44,14 +45,7 @@ export function LoginNavigation({ navigation }) {
 export function HomeNavigation({ navigation }) {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="HomeStack"
-        component={Home}
-        options={{
-          headerShown: false,
-          title: "HOME",
-        }}
-      />
+      <Stack.Screen name="HomeStack" component={Home} />
     </Stack.Navigator>
   );
 }
