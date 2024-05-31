@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const SignUp = () => {
+const SignIn = () => {
   return (
     <View style={styles.container}>
       <Image source={require('../img/moviego-big.png')} style={styles.logo} />
-      <Text style={styles.title}>CRIE SUA CONTA:</Text>
+      <Text style={styles.title}>ENTRAR NA SUA CONTA:</Text>
       <TextInput
         style={styles.input}
         placeholder="e-mail"
@@ -20,11 +20,11 @@ const SignUp = () => {
         secureTextEntry
       />
       <TouchableOpacity style={styles.createButton}>
-        <Text style={styles.createButtonText}>CRIAR</Text>
+        <Text style={styles.createButtonText}>ENTRAR</Text>
       </TouchableOpacity>
-        <Text style={styles.loginButtonText}>Já tem uma conta?</Text>
+        <Text style={styles.loginButtonText}>Ainda não tem uma conta?</Text>
       <TouchableOpacity style={styles.createButton}>
-        <Text style={styles.loginButtonText}>ENTRAR</Text>
+        <Text style={styles.loginButtonText}>CRIAR</Text>
       </TouchableOpacity>
     </View>
   );
@@ -83,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default SignIn;
