@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { SearchBar } from "@rneui/themed";
 import {
   Text,
   View,
@@ -7,9 +8,10 @@ import {
   FlatList,
   StatusBar,
 } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { FontAwesome } from "@expo/vector-icons";
+
 // custom Components
-import TopBar from "../components/topBarMovieGo";
+import TopBar from "../components/TopBar";
 
 export default (props) => {
   const initialState = "";
@@ -29,20 +31,34 @@ export default (props) => {
   return (
     <>
       <View style={styles.container}>
-        <StatusBar barStyle="default" />
         <TopBar />
 
-        <View style={{ height: 30 }} />
-
-        <Searchbar
-          placeholder="Pesquise o evento"
-          placeholderTextColor="#FFF"
-          iconColor="#FFF"
-          inputStyle={styles.textColor}
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          style={styles.searchBarStyle}
-        />
+        <View
+          style={{
+            marginTop: 15,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <SearchBar
+            placeholder="Pesquise por filmes"
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+            lightTheme={true}
+            round={true}
+            containerStyle={{
+              backgroundColor: "transparent",
+              borderWidth: 0,
+              borderTopWidth: 0,
+              borderBottomWidth: 0,
+            }}
+            inputContainerStyle={{
+              backgroundColor: "#4E4C4C",
+              width: 350,
+              height: 42,
+            }}
+          ></SearchBar>
+        </View>
       </View>
     </>
   );
@@ -55,8 +71,15 @@ const styles = StyleSheet.create({
   },
   searchBarStyle: {
     backgroundColor: "#4E4C4C",
+    borderRadius: 12,
+    marginTop: 20,
+    height: 42,
+    width: 347,
   },
+
   textColor: {
     color: "#FFF",
+    fontSize: 20,
+    textAlign: "auto",
   },
 });

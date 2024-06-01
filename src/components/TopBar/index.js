@@ -1,6 +1,5 @@
 import image from "../../img/moviego-small.png";
 import { StyleSheet, View, Image } from "react-native";
-import Constants from "expo-constants";
 
 export default (props) => {
   return (
@@ -13,14 +12,15 @@ export default (props) => {
 const styles = StyleSheet.create({
   topBar: {
     backgroundColor: "#4E4C4C",
-    height: "10%",
+    height: 75,
     alignItems: "center",
     justifyContent: "center",
-    borderBottomEndRadius: 15,
-    borderBottomStartRadius: 15,
+    borderBottomEndRadius: 20,
+    borderBottomStartRadius: 20,
   },
   topBarImage: {
-    height: "70%",
+    marginTop: 6,
+    height: 40,
     resizeMode: "contain",
   },
 });
