@@ -18,7 +18,7 @@ export default ({ route, navigation }) => {
           alignItems: "center",
         }}
       >
-        <Text style={styles.title}>CRIE SUA CONTA:</Text>
+        <Text style={styles.title}>ENTRAR NA SUA CONTA:</Text>
         <TextInput
           style={styles.input}
           placeholder="e-mail"
@@ -42,16 +42,18 @@ export default ({ route, navigation }) => {
             style={styles.createButton}
             onPress={() => navigation.navigate("ProfileSetupStack")}
           >
-            <Text style={styles.createButtonText}>CRIAR</Text>
+            <Text style={styles.createButtonText}>ENTRAR</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <Text style={styles.loginButtonText}>Já tem uma conta?</Text>
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => navigation.navigate("SignInStack")}
-      >
-        <Text style={styles.createButtonText}>ENTRAR</Text>
+      <Text style={styles.loginButtonText}>Ainda não tem uma conta?</Text>
+      <TouchableOpacity style={styles.loginButton}>
+        <Text
+          style={styles.createButtonText}
+          onPress={() => navigation.navigate("SignUpStack")}
+        >
+          CRIAR
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
   loginButton: {
     backgroundColor: "#000",
     borderRadius: 8,
-    width: 90,
+    width: 70,
     height: 33,
     justifyContent: "center",
     marginBottom: 45,

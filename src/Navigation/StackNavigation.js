@@ -1,12 +1,14 @@
 import React from "react";
+import { Text, View, Image } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeNavigationTabs from "./BottomTabs";
-import Login from "../Screens/Login";
+import SignIn from "../Screens/SignIn";
 import SignUp from "../Screens/SignUp";
 import Home from "../Screens/Home";
 import Search from "../Screens/Search";
 import Lists from "../Screens/Lists";
 import Profile from "../Screens/Profile";
+import ProfileSetup from "../Screens/ProfileSetup";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,15 +18,14 @@ export default () => (
     screenOptions={{ headerShown: false }}
   >
     <Stack.Screen name="Login" component={LoginNavigation} />
-    <Stack.Screen name="Home" component={HomeNavigationTabs} />
   </Stack.Navigator>
 );
 export function LoginNavigation({ navigation }) {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="SignUpStack">
       <Stack.Screen
-        name="LoginStack"
-        component={Login}
+        name="SignInStack"
+        component={SignIn}
         options={{
           headerShown: false,
           title: "LOGIN",
@@ -38,6 +39,22 @@ export function LoginNavigation({ navigation }) {
           title: "SIGNUP",
         }}
       />
+      <Stack.Screen
+        name="ProfileSetupStack"
+        component={ProfileSetup}
+        options={{
+          headerShown: false,
+          title: "SETUP",
+        }}
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeNavigationTabs}
+        options={{
+          headerShown: false,
+          title: "HOME",
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -49,7 +66,7 @@ export function HomeNavigation({ navigation }) {
         component={Home}
         options={{
           headerShown: false,
-          title: "HOME",
+          title: "Home",
         }}
       />
     </Stack.Navigator>
