@@ -1,100 +1,148 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const ProfileSetupScreen = () => {
+export default ({ route, navigation }) => {
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [data, setData] = useState(null);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+  const handleConfirmDate = (date) => {
+    dataLida =
+      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+    setData(dataLida);
+    hideDatePicker();
+  };
   return (
     <View style={styles.container}>
-      <Image source={require('../img/moviego-big.png')} style={styles.logo} />
+      <Image source={require("../img/moviego-big.png")} style={styles.logo} />
       <View style={styles.formContainer}>
-        <TouchableOpacity style={styles.photoUploadButton}>
-          <FontAwesome name="user-circle" size={80} color="#ccc" />
-          <Text style={styles.photoUploadText}>Fazer upload de foto</Text>
-        </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            paddingBottom: 20,
+            paddingTop: 10,
+          }}
+        >
+          <FontAwesome name="user-circle" size={55} color="#ccc" />
+          <TouchableOpacity style={styles.photoUploadButton}>
+            <Text style={styles.photoUploadText}>Fazer upload de foto</Text>
+          </TouchableOpacity>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Seu nome"
-          placeholderTextColor="#aaa"
+          placeholderTextColor="#4E4C4C"
         />
-        <TouchableOpacity style={styles.dateInput}>
-          <FontAwesome name="calendar" size={24} color="#ccc" />
-          <Text style={styles.dateInputText}>Data de nascimento</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.completeButton}>
-          <Text style={styles.completeButtonText}>CONCLUIR</Text>
-        </TouchableOpacity>
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity style={styles.dateInput} onPress={showDatePicker}>
+            <FontAwesome name="calendar" size={14} color="#4E4C4C" />
+            <Text style={styles.dateInputText}>
+              {data == null ? "Data de nascimento" : data}
+            </Text>
+          </TouchableOpacity>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            locale="pt_BR"
+            onConfirm={handleConfirmDate}
+            onCancel={hideDatePicker}
+            containerStyle={styles.dateInput}
+          />
+          <TouchableOpacity
+            style={styles.completeButton}
+            onPress={() => navigation.navigate("Home")}
+          >
+            <Text style={styles.completeButtonText}>CONCLUIR</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#333',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#4E4C4C",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 20,
   },
   logo: {
-    marginTop: 0,
-    width:270,
-    height:160,
-    resizeMode:'contain'
+    marginTop: -80,
+    marginBottom: 15,
+    width: 270,
+    height: 99,
+    resizeMode: "contain",
   },
   formContainer: {
-    width: '100%',
-    backgroundColor: '#444',
+    width: 330,
+    backgroundColor: "#1E1E1E",
     borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
+    padding: 15,
   },
   photoUploadButton: {
-    alignItems: 'center',
-    marginBottom: 20,
+    backgroundColor: "#4E4C4C",
+    borderRadius: 8,
+    width: 145,
+    marginLeft: 25,
+    height: 33,
+    alignItems: "center",
   },
   photoUploadText: {
-    color: '#ccc',
+    color: "#ccc",
     marginTop: 10,
   },
   input: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#555',
-    borderRadius: 25,
+    width: 305,
+    height: 42,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 20,
     paddingHorizontal: 20,
-    fontSize: 18,
-    color: '#fff',
-    marginBottom: 15,
+    fontSize: 14,
+    color: "#fff",
+    marginBottom: 25,
   },
   dateInput: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#555',
-    borderRadius: 25,
-    paddingHorizontal: 20,
-    fontSize: 18,
-    color: '#fff',
-    marginBottom: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
+    width: 143,
+    height: 42,
+    backgroundColor: "#D9D9D9",
+    borderRadius: 20,
+    marginBottom: 25,
+    padding: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   dateInputText: {
-    color: '#aaa',
+    color: "#4E4C4C",
     marginLeft: 10,
+    fontSize: 11,
   },
   completeButton: {
-    backgroundColor: '#000',
-    borderRadius: 25,
-    width: '100%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#4E4C4C",
+    borderRadius: 8,
+    width: 85,
+    height: 33,
+    alignItems: "center",
+    justifyContent: "center",
   },
   completeButtonText: {
-    color: '#fff',
-    fontSize: 18,
+    color: "#fff",
+    fontSize: 14,
   },
 });
-
-export default ProfileSetupScreen;
