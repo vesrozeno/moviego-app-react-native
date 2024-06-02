@@ -17,12 +17,7 @@ import { FontAwesome } from '@expo/vector-icons';
 const { width } = Dimensions.get("window");
 
 export default ({ title, data, moveTela }) => {
-    const [expanded, setExpanded] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-
-    const toggleExpanded = () => {
-        setExpanded(!expanded);
-    };
 
     const handlePress = () => {
         setModalVisible(true);
