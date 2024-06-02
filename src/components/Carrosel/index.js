@@ -1,5 +1,5 @@
 import { fonts } from "@rneui/base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     FlatList,
@@ -8,25 +8,62 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    Modal
+    Modal,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { FontAwesome } from '@expo/vector-icons';
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 
 const { width } = Dimensions.get("window");
+const TMDB_API_KEY = '8bb51d05c8c98d7ff15be6ae8b9282bb'
 
-export default ({ title, data, moveTela }) => {
-    const [modalVisible, setModalVisible] = useState(false);
+export default ({ title, list_type }) => {
+    const [movies, setMovies] = useState([])
+    const [selectedMovie, setSelectedMovie] = useState(null)
+    const navigation = useNavigation()
 
-    const handlePress = () => {
-        setModalVisible(true);
+    useEffect(() => {
+        const fetchMovies = async () => {
+            try {
+                const response = await axios.get(`https://api.themoviedb.org/3/movie/${list_type}?api_key=${TMDB_API_KEY}&language=pt-BR&page=1`)
+                setMovies(response.data.results)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+
+        fetchMovies()
+    }, [])
+
+    const handlePress = (movie) => {
+        setSelectedMovie(movie)
     };
 
     const closeModal = () => {
-        setModalVisible(false);
-    };
+        setSelectedMovie(null)
+    }
 
+    
+    const goToMovieScreen = () => {
+        navigation.navigate('MovieStack', {movieId: selectedMovie.id})
+        closeModal()
+    }
+    
+    const renderItem = ({ item }) => (
+        <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => handlePress(item)}>
+
+            <Image
+                source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
+                resizeMode='cover'
+                style={{ height: width / 2.4, width: width * 0.31, borderRadius: 20, marginHorizontal: 6 }}
+            />
+
+        </TouchableOpacity>
+    )
 
     return (
         <View style={styles.container}>
@@ -41,79 +78,58 @@ export default ({ title, data, moveTela }) => {
                 </TouchableOpacity>
             </View>
             <FlatList
-                data={data}
-                keyExtractor={(item) => String(item)}
+                data={movies}
+                keyExtractor={(item) => item.id.toString()}
                 showsHorizontalScrollIndicator={false}
                 horizontal
                 snapToAlignment={"start"}
                 scrollEventThrottle={16}
                 decelerationRate={"fast"}
                 style={{ marginTop: 15 }}
-                renderItem={({ item }) => (
-                    <>
-                        <View
-                            style={{
-                                backgroundColor: item.color,
-                                height: width / 2.4,
-                                width: width * 0.3,
-                                marginHorizontal: 7,
-                                borderRadius: 20,
-                            }}
-                        >
-                            <TouchableOpacity
-                                activeOpacity={0.7}
-                                onPress={() => handlePress()}
-                            >
-                                <Image
-                                    source={require("../../../assets/relampagoMcQueen.jpg")}
-                                    resizeMode="repeat"
-                                    style={{ height: width / 2.4, width: width * 0.3, borderRadius:20 }}
-                                />
-                            </TouchableOpacity>
-                            <Modal visible={modalVisible} animationType="slide" transparent={true}>
-                                <View style={styles.modalContainer}>
-                                    <View style={styles.modalContent}>
-                                        <Text style={styles.modalTitle}>Carros</Text>
-                                        <Text style={styles.modalSubtitle}>2006</Text>
-                                        <View style={styles.actionContainer}>
-                                            <TouchableOpacity style={styles.actionButton}>
-                                                <FontAwesome name="eye" size={30} color="#fff" />
-                                                <Text style={styles.actionText}>Já vi</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={styles.actionButton}>
-                                                <FontAwesome name="heart" size={30} color="#fff" />
-                                                <Text style={styles.actionText}>Favoritos</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={styles.actionButton}>
-                                                <FontAwesome name="plus" size={30} color="#fff" />
-                                                <Text style={styles.actionText}>Quero ver</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View>
-                                            <TouchableOpacity style={styles.actionButtonText}>
-                                                <Text style={styles.buttonText}>Ir para o filme</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={styles.actionButtonText}>
-                                                <Text style={styles.buttonText}>Adicionar à listas</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                        <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                                            <Text style={styles.closeButtonText}>Concluído</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </Modal>
-                        </View>
-                    </>
-                )}
+                renderItem={renderItem}
             />
+            {selectedMovie && (
+                <Modal visible={true} animationType="slide" transparent={true} >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalTitle}>{selectedMovie.title}</Text>
+                            <Text style={styles.modalSubtitle}>{selectedMovie.release_date}</Text>
+                            <View style={styles.actionContainer}>
+                                <TouchableOpacity style={styles.actionButton}>
+                                    <FontAwesome name="eye" size={30} color="#fff" />
+                                    <Text style={styles.actionText}>Já vi</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.actionButton}>
+                                    <FontAwesome name="heart" size={30} color="#fff" />
+                                    <Text style={styles.actionText}>Favoritos</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.actionButton}>
+                                    <FontAwesome name="plus" size={30} color="#fff" />
+                                    <Text style={styles.actionText}>Quero ver</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <TouchableOpacity style={styles.actionButtonText} onPress={goToMovieScreen}>
+                                    <Text style={styles.buttonText}>mais informações</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.actionButtonText}>
+                                    <Text style={styles.buttonText}>Adicionar à listas</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+                                <Text style={styles.closeButtonText}>Concluído</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 15,
+        marginTop: 5,
         marginLeft: 5,
         marginRight: 5,
     },
@@ -150,7 +166,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: -80
+        marginTop: 0
     },
     modalSubtitle: {
         color: '#fff',
@@ -190,7 +206,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         marginBottom: 20,
         width: '100%',
-        marginTop:20,
+        marginTop: 20,
     },
     actionButton: {
         alignItems: 'center',
