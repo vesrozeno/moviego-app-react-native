@@ -40,7 +40,7 @@ export default ({ route, navigation }) => {
         >
           <TouchableOpacity
             style={styles.createButton}
-            onPress={() => navigation.navigate("ProfileSetupStack")}
+            onPress={() => navigation.navigate("Home")}
           >
             <Text style={styles.createButtonText}>ENTRAR</Text>
           </TouchableOpacity>

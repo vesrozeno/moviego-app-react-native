@@ -8,94 +8,93 @@ import {
   Image,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import TopBar from "../components/TopBar";
 export default ({ route, navigation }) => {
   return (
-    <View style={styles.container}>
-      <View style={{ marginRight: -75 }}>
-        <TouchableOpacity style={styles.edit_button}>
-          <Text style={styles.edit_text}>editar dados</Text>
-          <FontAwesome name="pencil" size={15} color="#ccc" />
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginBottom: 40,
-          paddingTop: 10,
-        }}
-      >
-        <FontAwesome name="user-circle" size={55} color="#ccc" />
-        <Text style={styles.name_text}>Nome do usuário</Text>
-      </View>
-
+    <View style={styles.containerTop}>
+      <TopBar></TopBar>
       <View>
-        <TouchableOpacity
-          style={styles.statsButton}
-          onPress={() => navigation.navigate("SignInStack")}
+        <View
+          style={{
+            marginTop: 10,
+            marginRight: 10,
+            alignItems: "flex-end",
+          }}
         >
-          <View style={{ flexDirection: "column" }}>
-            <FontAwesome name="eye" size={30} color="#ccc" />
-            <Text style={styles.tinyButtonText}>Já vi</Text>
-          </View>
-          <Text style={styles.statsButtonText}>100 filmes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.statsButton}
-          onPress={() => navigation.navigate("SignInStack")}
+          <TouchableOpacity style={styles.edit_button}>
+            <Text style={styles.edit_text}>editar dados</Text>
+            <FontAwesome name="pencil" size={15} color="#ccc" />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            marginBottom: 30,
+            paddingTop: 5,
+          }}
         >
-          <View style={{ flexDirection: "column" }}>
-            <FontAwesome name="star" size={30} color="#ccc" />
-            <Text style={styles.tinyButtonText}>Favoritos</Text>
-          </View>
-          <Text style={styles.statsButtonText}>56 filmes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.statsButton}
-          onPress={() => navigation.navigate("SignInStack")}
-        >
-          <View style={{ flexDirection: "column" }}>
-            <FontAwesome name="list" size={30} color="#ccc" />
-            <Text style={styles.tinyButtonText}>Quero ver</Text>
-          </View>
-          <Text style={styles.statsButtonText}>89 filmes</Text>
-        </TouchableOpacity>
-      </View>
+          <FontAwesome name="user-circle" size={55} color="#ccc" />
+          <Text style={styles.name_text}>Nome do usuário</Text>
+        </View>
 
-      <View style={{ alignItems: "center" }}>
-        <TouchableOpacity
-          style={styles.completeButton}
-          onPress={() => navigation.navigate("SignInStack")}
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <Text style={styles.completeButtonText}>SAIR</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.statsButton}
+            onPress={() => navigation.navigate("SignInStack")}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <FontAwesome name="eye" size={30} color="#ccc" />
+              <Text style={styles.tinyButtonText}>Já vi</Text>
+            </View>
+            <Text style={styles.statsButtonText}>100 filmes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.statsButton}
+            onPress={() => navigation.navigate("SignInStack")}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <FontAwesome name="star" size={30} color="#ccc" />
+              <Text style={styles.tinyButtonText}>Favoritos</Text>
+            </View>
+            <Text style={styles.statsButtonText}>56 filmes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.statsButton}
+            onPress={() => navigation.navigate("SignInStack")}
+          >
+            <View style={{ flexDirection: "column" }}>
+              <FontAwesome name="list" size={30} color="#ccc" />
+              <Text style={styles.tinyButtonText}>Quero ver</Text>
+            </View>
+            <Text style={styles.statsButtonText}>89 filmes</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity
+            style={styles.completeButton}
+            onPress={() => navigation.navigate("SignInStack")}
+          >
+            <Text style={styles.completeButtonText}>SAIR</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  container: {
+  containerTop: {
     flex: 1,
-    backgroundColor: "#1E1E1E",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
+    backgroundColor: "#323232",
   },
-  logo: {
-    marginTop: -80,
-    marginBottom: 15,
-    width: 270,
-    height: 99,
-    resizeMode: "contain",
-  },
-  formContainer: {
-    width: 330,
-    backgroundColor: "#1E1E1E",
-    borderRadius: 10,
-    padding: 15,
-  },
+
   edit_button: {
     backgroundColor: "#4E4C4C",
     borderRadius: 13,
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
     color: "#ccc",
     fontWeight: "bold",
     fontSize: 24,
-    marginTop: 10,
+    marginTop: 5,
     padding: 10,
   },
   input: {
@@ -123,27 +122,10 @@ const styles = StyleSheet.create({
     height: 42,
     backgroundColor: "#D9D9D9",
     borderRadius: 20,
-    paddingHorizontal: 20,
     fontSize: 14,
     color: "#fff",
-    marginBottom: 25,
   },
-  dateInput: {
-    width: 143,
-    height: 42,
-    backgroundColor: "#D9D9D9",
-    borderRadius: 20,
-    marginBottom: 25,
-    padding: 5,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dateInputText: {
-    color: "#4E4C4C",
-    marginLeft: 10,
-    fontSize: 11,
-  },
+
   completeButton: {
     backgroundColor: "#4E4C4C",
     borderRadius: 8,
