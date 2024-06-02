@@ -9,6 +9,7 @@ import Search from "../Screens/Search";
 import Lists from "../Screens/Lists";
 import Profile from "../Screens/Profile";
 import ProfileSetup from "../Screens/ProfileSetup";
+import Movie from "../Screens/Movie";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,15 @@ export function HomeNavigation({ navigation }) {
         options={{
           headerShown: false,
           title: "Home",
+        }}
+      />
+
+      <Stack.Screen
+        name='MovieStack'
+        component={Movie}
+        options={{
+          headerShown: false,
+          title: 'Movie'
         }}
       />
     </Stack.Navigator>
