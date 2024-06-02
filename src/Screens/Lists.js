@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
+  Image,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 // Custom Components
@@ -37,7 +38,7 @@ const minhasListas = [
   },
 ];
 
-export default (props) => {
+export default ({ route, navigation }) => {
   return (
     <View style={commonStyles.container}>
       <TopBar></TopBar>
@@ -47,7 +48,7 @@ export default (props) => {
           <Text style={styles.titulo}>Minhas Listas</Text>
           <TouchableOpacity style={styles.botao} activeOpacity={0.7}>
             <Text style={styles.textoBotao}>Nova lista</Text>
-            <AntDesign name="pluscircle" size={24} color="white" />
+            <AntDesign name="pluscircle" size={24} color="#FFF" />
           </TouchableOpacity>
         </View>
 
@@ -69,7 +70,18 @@ export default (props) => {
                     marginHorizontal: 7,
                     borderRadius: 12,
                   }}
-                />
+                >
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => handlePress()}
+                  >
+                    <Image
+                      source={require("../../assets/relampagoMcQueen.jpg")}
+                      resizeMode="repeat"
+                      style={{ height: width / 2.4, width: width * 0.3 }}
+                    />
+                  </TouchableOpacity>
+                </View>
                 <Text style={styles.nomeLista}>{item.name}</Text>
               </View>
             </>

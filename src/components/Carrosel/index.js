@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
@@ -22,7 +23,7 @@ export default ({ title, data, moveTela }) => {
           activeOpacity={0.7}
           //onPress={() => moveTela()}
         >
-          <AntDesign name="right" size={24} color="white" />
+          <AntDesign name="right" size={24} color="#FFF" />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -45,7 +46,16 @@ export default ({ title, data, moveTela }) => {
                 borderRadius: 12,
               }}
             >
-              {/*Image item.image*/}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => handlePress()}
+              >
+                <Image
+                  source={require("../../../assets/relampagoMcQueen.jpg")}
+                  resizeMode="repeat"
+                  style={{ height: width / 2.4, width: width * 0.3 }}
+                />
+              </TouchableOpacity>
             </View>
           </>
         )}
