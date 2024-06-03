@@ -100,6 +100,7 @@ export default ({ route, navigation }) => {
                 alignItems: "center",
               }}
             >
+              {/*Alterar as navigations*/}
               <TouchableOpacity
                 style={styles.statsButton}
                 onPress={() => navigation.navigate("SignInStack")}
