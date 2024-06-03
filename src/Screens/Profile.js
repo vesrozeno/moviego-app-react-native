@@ -8,6 +8,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import TopBar from "../components/TopBar";
@@ -15,17 +16,18 @@ import commonStyles from "../../styles/commonStyles";
 export default ({ route, navigation }) => {
   return (
     <SafeAreaView style={commonStyles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <TopBar></TopBar>
       <ScrollView
         style={commonStyles.container}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
       >
         <View style={styles.containerTop}>
           <View>
             <View
               style={{
                 marginTop: 10,
-                marginRight: 10,
+                marginRight: 25,
                 alignItems: "flex-end",
               }}
             >

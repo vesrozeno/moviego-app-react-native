@@ -9,6 +9,7 @@ import {
   Image,
   SafeAreaView,
   ScrollView,
+  StatusBar,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 // Custom Components
@@ -43,6 +44,7 @@ const minhasListas = [
 export default ({ route, navigation }) => {
   return (
     <SafeAreaView style={commonStyles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <TopBar></TopBar>
       <ScrollView
         style={commonStyles.container}

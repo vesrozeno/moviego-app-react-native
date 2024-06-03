@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  StatusBar,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -28,12 +29,14 @@ export default ({ route, navigation }) => {
   };
   return (
     <View style={styles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <Image source={require("../img/moviego-big.png")} style={styles.logo} />
       <View style={styles.formContainer}>
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-around",
             paddingBottom: 20,
             paddingTop: 10,
           }}
@@ -98,14 +101,17 @@ const styles = StyleSheet.create({
   photoUploadButton: {
     backgroundColor: "#4E4C4C",
     borderRadius: 8,
-    width: 145,
+    width: "45%",
     marginLeft: 25,
     height: 33,
     alignItems: "center",
+    alignContent: "center",
   },
   photoUploadText: {
     color: "#ccc",
     marginTop: 10,
+    fontSize: 11,
+    fontStyle: "italic",
   },
   input: {
     width: 305,

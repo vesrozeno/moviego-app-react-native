@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, SafeAreaView, ScrollView } from "react-native";
+import { Text, View, SafeAreaView, ScrollView, StatusBar } from "react-native";
 import commonStyles from "../../styles/commonStyles";
 import Carrosel from "../components/Carrosel";
 import TopBar from "../components/TopBar";
@@ -7,6 +7,7 @@ import TopBar from "../components/TopBar";
 export default (props) => {
   return (
     <SafeAreaView style={commonStyles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <TopBar></TopBar>
       <ScrollView contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}>
         <View style={commonStyles.container}>
