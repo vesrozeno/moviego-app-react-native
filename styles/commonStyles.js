@@ -5,6 +5,8 @@ export default {
   },
   containerSafe: {
     flex: 1,
-    backgroundColor: "#4E4C4C",
+    backgroundColor: "transparent",
+    borderBottomEndRadius: 20,
+    borderBottomStartRadius: 20,
   },
 };

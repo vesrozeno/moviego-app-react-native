@@ -12,15 +12,15 @@ export default (props) => {
 const styles = StyleSheet.create({
   topBar: {
     backgroundColor: "#4E4C4C",
-    height: 75,
+    height: "9%",
     alignItems: "center",
     justifyContent: "center",
-    borderBottomEndRadius: 20,
-    borderBottomStartRadius: 20,
+    borderBottomWidth: 0.5,
+    borderBlockColor: "gray",
   },
   topBarImage: {
-    marginTop: 6,
-    height: 40,
+    marginTop: 10,
+    height: "55%",
     resizeMode: "contain",
   },
 });

@@ -8,10 +8,7 @@ export default (props) => {
   return (
     <SafeAreaView style={commonStyles.container}>
       <TopBar></TopBar>
-      <ScrollView
-        style={commonStyles.container}
-        contentContainerStyle={{ paddingBottom: 100 }}
-      >
+      <ScrollView contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}>
         <View style={commonStyles.container}>
           <Carrosel title="Nos cinemas" list_type={"now_playing"} />
           <Carrosel title="Popular" list_type={"popular"} />

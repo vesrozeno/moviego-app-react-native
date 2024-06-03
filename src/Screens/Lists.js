@@ -57,42 +57,33 @@ export default ({ route, navigation }) => {
                 <AntDesign name="pluscircle" size={24} color="#FFF" />
               </TouchableOpacity>
             </View>
-
-            <FlatList
-              data={minhasListas}
-              keyExtractor={(item) => String(item)}
-              snapToAlignment={"start"}
-              scrollEventThrottle={16}
-              decelerationRate={"fast"}
-              style={styles.flatListStyle}
-              renderItem={({ item }) => (
-                <>
-                  <View style={styles.containerFlexList}>
-                    <View
-                      style={{
-                        backgroundColor: item.color,
-                        height: width / 2.4,
-                        width: width * 0.3,
-                        marginHorizontal: 7,
-                        borderRadius: 12,
-                      }}
+            {minhasListas.map((item, index) => (
+              <>
+                <View style={styles.containerFlexList} key={index}>
+                  <View
+                    style={{
+                      backgroundColor: item.color,
+                      height: width / 2.4,
+                      width: width * 0.3,
+                      marginHorizontal: 7,
+                      borderRadius: 12,
+                    }}
+                  >
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => handlePress()}
                     >
-                      <TouchableOpacity
-                        activeOpacity={0.7}
-                        onPress={() => handlePress()}
-                      >
-                        <Image
-                          source={require("../../assets/relampagoMcQueen.jpg")}
-                          resizeMode="repeat"
-                          style={{ height: width / 2.4, width: width * 0.3 }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <Text style={styles.nomeLista}>{item.name}</Text>
+                      <Image
+                        source={require("../../assets/relampagoMcQueen.jpg")}
+                        resizeMode="repeat"
+                        style={{ height: width / 2.4, width: width * 0.3 }}
+                      />
+                    </TouchableOpacity>
                   </View>
-                </>
-              )}
-            />
+                  <Text style={styles.nomeLista}>{item.name}</Text>
+                </View>
+              </>
+            ))}
           </View>
         </View>
       </ScrollView>

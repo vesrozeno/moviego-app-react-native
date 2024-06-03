@@ -63,16 +63,19 @@ export default ({ title, list_type }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.containerTitulo}>
+      <TouchableOpacity
+        style={styles.containerTitulo}
+        activeOpacity={0.7}
+        //onPress={() => moveTela()}
+      >
         <Text style={styles.titulo}>{title}</Text>
-        <TouchableOpacity
+        <FontAwesome
+          name="chevron-right"
+          size={15}
+          color="#4E4C4C"
           style={styles.botao}
-          activeOpacity={0.7}
-          //onPress={() => moveTela()}
-        >
-          <FontAwesome name="chevron-right" size={15} color="#4E4C4C" />
-        </TouchableOpacity>
-      </View>
+        />
+      </TouchableOpacity>
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
@@ -130,7 +133,7 @@ export default ({ title, list_type }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10,
+    marginTop: 20,
     marginLeft: 5,
     marginRight: 0,
   },
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: -8,
+    marginBottom: -2,
   },
   titulo: {
     color: "#FFF",
