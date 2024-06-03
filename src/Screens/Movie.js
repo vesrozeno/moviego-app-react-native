@@ -11,17 +11,37 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
-
+import { ListItem } from "@rneui/themed";
+import { LinearGradient } from "expo-linear-gradient";
+import { StarRatingDisplay } from "react-native-star-rating-widget";
+import { Divider } from "@rneui/themed";
+import Icon from "react-native-vector-icons/Ionicons";
 const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
 
 export default ({ route }) => {
   const [expanded, setExpanded] = useState(false);
+  const [cast, setCast] = useState(false);
+  const [seen, setSeen] = useState(false); // Depois mudar aqui pra receber se o filme já está em alguma dessas listas
+  const [fav, setFav] = useState(false);
+  const [wlist, setWList] = useState(false);
   const { movieId } = route.params;
   const [movieDetails, setMovieDetails] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
+  };
+  const toggleCast = () => {
+    setCast(!cast);
+  };
+  const toggleSeen = () => {
+    setSeen(!seen);
+  };
+  const toggleFav = () => {
+    setFav(!fav);
+  };
+  const toggleWList = () => {
+    setWList(!wlist);
   };
 
   useEffect(() => {
@@ -67,21 +87,16 @@ export default ({ route }) => {
     return `${hours}h ${minutes}m`;
   };
 
-  const formatDate= (dateString) => {
-    const [year, month, day] = dateString.split('-');
-    
-    const months = [
-        'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 
-        'jul', 'ago', 'set', 'out', 'nov', 'dez'
-    ];
-
-    const monthName = months[parseInt(month, 10) - 1];
-
-    return `${day} de ${monthName}. de ${year}`;
-}
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${year}`;
+  };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{ paddingBottom: 90 }}
+    >
       <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <View style={styles.backgroundContainer}>
         <Image
@@ -89,6 +104,10 @@ export default ({ route }) => {
             uri: `https://image.tmdb.org/t/p/w500${movieDetails.backdrop_path}`,
           }}
           style={styles.backgroundImage}
+        />
+        <LinearGradient
+          colors={["transparent", "rgba(50,50,50,1)"]}
+          style={{ position: "absolute", width: "100%", height: "100%" }}
         />
       </View>
       <View style={styles.contentContainer}>
@@ -102,57 +121,107 @@ export default ({ route }) => {
             />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{movieDetails.title}</Text>
-            <Text style={styles.year}>{formatDate(movieDetails.release_date)}</Text>
-            <Text style={styles.subtitle}>
-              DIRIGIDO POR:{" "}
-              <Text style={styles.director}>{movieDetails.director}</Text>
-            </Text>
-            <Text style={styles.subtitle}>
-              DURAÇÃO:{" "}
-              <Text style={styles.director}>
-                {formatRuntime(movieDetails.runtime)}
+            <Text style={styles.title}>
+              {movieDetails.title}{" "}
+              <Text style={styles.year}>
+                {formatDate(movieDetails.release_date)}
               </Text>
+            </Text>
+
+            <Text style={styles.subtitle}>DIRIGIDO POR: </Text>
+            <Text style={styles.director}>{movieDetails.director}</Text>
+            <Text style={styles.subtitle}>
+              {formatRuntime(movieDetails.runtime)}
             </Text>
           </View>
         </View>
 
-        <TouchableOpacity onPress={toggleExpanded}>
-          <Text style={[styles.description, !expanded && styles.collapsed]}>
-            {movieDetails.overview}
-          </Text>
-          {!expanded && <Text style={styles.synopsis}>ver mais</Text>}
-          {expanded && <Text style={styles.synopsis}>ver menos</Text>}
-        </TouchableOpacity>
+        <View style={{ marginTop: 10 }}>
+          <TouchableOpacity onPress={toggleExpanded}>
+            {!expanded ? (
+              <Text style={styles.collapsed}>
+                {movieDetails.overview.slice(0, 100) + "..."}{" "}
+                {<Text style={styles.synopsis}>ver mais</Text>}
+              </Text>
+            ) : (
+              <Text style={styles.description}>
+                {movieDetails.overview}{" "}
+                {<Text style={styles.synopsis}>ver menos</Text>}
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
 
-        <Text style={styles.sectionTitle}>Nota:</Text>
-        <View style={styles.ratingContainer}>
-          <Text style={styles.rating}>{movieDetails.vote_average}/10</Text>
-        </View>
-        <View style={styles.actionContainer}>
-          <TouchableOpacity style={styles.actionButton}>
-            <FontAwesome name="eye" size={24} color="#fff" />
-            <Text style={styles.actionText}>Já vi</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
-            <FontAwesome name="heart" size={24} color="#fff" />
-            <Text style={styles.actionText}>Favoritos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
-            <FontAwesome name="plus" size={24} color="#fff" />
-            <Text style={styles.actionText}>Quero ver</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.addButton}>
-          <Text style={styles.addButtonText}>Adicionar à listas</Text>
-        </TouchableOpacity>
-        <View style={styles.cast}>
-          <Text style={styles.subtitle}>Elenco:</Text>
-          {movieDetails.cast.slice(0, 10).map((actor) => (
-            <Text key={actor.id} style={styles.actorName}>
-              {actor.name} como {actor.character}
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={styles.sectionTitle}>Avaliações:</Text>
+          <View style={styles.ratingContainer}>
+            <Text style={styles.rating}>
+              {(movieDetails.vote_average / 2).toFixed(1)}
             </Text>
-          ))}
+            <StarRatingDisplay
+              rating={movieDetails.vote_average / 2}
+              color={"white"}
+              starSize={20}
+              enableHalfStar={true}
+            />
+          </View>
+
+          <View style={styles.actionContainer}>
+            <TouchableOpacity style={styles.actionButton} onPress={toggleSeen}>
+              <Icon
+                name={seen ? "eye" : "eye-outline"}
+                size={50}
+                color="#fff"
+              />
+              <Text style={styles.actionText}>Já vi</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={toggleFav}>
+              <Icon
+                name={fav ? "star" : "star-outline"}
+                size={50}
+                color="#fff"
+              />
+              <Text style={styles.actionText}>Favoritos</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton} onPress={toggleWList}>
+              <Icon
+                name={wlist ? "time" : "time-outline"}
+                size={50}
+                color="#fff"
+              />
+              <Text style={styles.actionText}>Quero ver</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.addButton}>
+            <Text style={styles.addButtonText}>Adicionar à listas</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.cast}>
+          <View style={{ alignItems: "center", marginTop: 10 }}>
+            <TouchableOpacity style={styles.elencoButton} onPress={toggleCast}>
+              <FontAwesome name="user" size={10} color="#fff" />
+              <Text style={styles.subtitleButton}>Ver elenco do filme</Text>
+            </TouchableOpacity>
+          </View>
+
+          {cast &&
+            movieDetails.cast.slice(0, 10).map((actor) => (
+              <ListItem
+                key={actor.id}
+                containerStyle={styles.cast_list}
+                topDivider
+              >
+                <ListItem.Content>
+                  <ListItem.Title style={styles.actorName}>
+                    {actor.name}
+                  </ListItem.Title>
+                  <ListItem.Subtitle style={styles.charName}>
+                    {actor.character}
+                  </ListItem.Subtitle>
+                </ListItem.Content>
+              </ListItem>
+            ))}
         </View>
       </View>
     </ScrollView>
@@ -162,11 +231,11 @@ export default ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#333",
+    backgroundColor: "#323232",
   },
   backgroundContainer: {
     width: "100%",
-    height: 170,
+    height: 200,
   },
   backgroundImage: {
     width: "100%",
@@ -176,51 +245,56 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
   },
   contentContainer: {
-    paddingHorizontal: 20,
+    //paddingHorizontal: 20,
     paddingTop: 30,
-    alignItems: "center",
+    //alignItems: "center",
   },
   movieContainer: {
     flexDirection: "row",
+    paddingHorizontal: 15,
   },
   posterContainer: {
-    width: 120,
-    height: 150,
-    marginTop: -10,
+    marginTop: -50,
     zIndex: 1,
-    flex: 3,
   },
   poster: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 10,
+    width: 103,
+    height: 149,
+    borderRadius: 5,
   },
   textContainer: {
     width: "100%",
     alignItems: "flex-start",
     paddingStart: 15,
-    marginTop: -20,
+    marginTop: -50,
     flex: 7,
   },
   title: {
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "flex-start",
+    marginBottom: 10,
   },
   year: {
     color: "#aaa",
-    fontSize: 20,
+    fontSize: 17,
+    fontWeight: "regular",
   },
   subtitle: {
-    color: "#aaa",
-    fontSize: 14,
-    marginTop: 5,
+    color: "#fff",
+    fontSize: 12,
+  },
+  subtitleButton: {
+    color: "#fff",
+    fontSize: 12,
+    marginLeft: 5,
   },
   director: {
     color: "#fff",
     fontSize: 16,
-    marginTop: 5,
+    fontWeight: "bold",
+    marginBottom: 12,
   },
   runtime: {
     color: "#fff",
@@ -229,16 +303,18 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "#aaa",
-    marginTop: 10,
+    paddingHorizontal: 15,
+    color: "#fff",
     textAlign: "justify",
   },
   collapsed: {
-    height: 60, // Limit the height to show only 3 lines
+    paddingHorizontal: 15,
+    color: "#fff",
     overflow: "hidden",
   },
   synopsis: {
-    color: "#fff",
-    textDecorationLine: "underline",
+    color: "#A6A6A6",
+    paddingHorizontal: 15,
   },
   sectionTitle: {
     color: "#fff",
@@ -248,15 +324,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   ratingContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    padding: 10,
+    borderColor: "#fff",
+    width: 300,
     marginBottom: 20,
   },
   rating: {
     color: "#fff",
-    fontSize: 24,
-    marginRight: 5,
+    fontSize: 27,
+    fontWeight: "bold",
   },
   actionContainer: {
     flexDirection: "row",
@@ -274,21 +355,39 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: "#555",
-    borderRadius: 25,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
     height: 50,
-    width: "100%",
+    width: 347,
+  },
+  elencoButton: {
+    flexDirection: "row",
+    backgroundColor: "#555",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 30,
+    width: 150,
+    marginBottom: 20,
   },
   addButtonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 20,
   },
   actorName: {
-    fontSize: 16,
+    fontSize: 15,
+    color: "#ccc",
+    fontWeight: "bold",
+  },
+  charName: {
+    fontSize: 12,
     color: "#ccc",
   },
   cast: {
-    marginBottom: 70,
+    paddingTop: 10,
+  },
+  cast_list: {
+    backgroundColor: "#323232",
   },
 });
