@@ -31,6 +31,7 @@ export default function HomeNavigationTabs({ route }) {
       <Tab.Screen
         name="HomeTab"
         component={HomeNavigation}
+        initialParams={{ id_user: id_user }}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -61,6 +62,7 @@ export default function HomeNavigationTabs({ route }) {
       <Tab.Screen
         name="ListsTab"
         component={ListsNavigation}
+        initialParams={{ id_user: id_user }}
         options={{
           tabBarIcon: ({ focused }) => (
             <>

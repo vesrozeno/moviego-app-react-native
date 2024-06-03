@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -34,7 +34,47 @@ const minhasListas = [
   },
 ];
 
+/*
+  key-value
+  (
+  id_user,
+  {
+  seen_list,
+  favorite_list,
+  watch_list
+  }
+  )
+*/
 export default ({ route, navigation }) => {
+  const { id_user } = route.params;
+  console.log(id_user);
+
+  const [userData, setUserData] = useState(null);
+
+  const searchUserData = async (id_user) => {
+    try {
+      const storedData = await getItem(`${id_user}`);
+      const parsedData = storedData ? JSON.parse(storedData) : [{}, {}, {}];
+      return parsedData;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Carrega dados do usuário
+  useEffect(() => {
+    (async () => {
+      const data = await searchUserData(id_user);
+      setUserData(data);
+    })();
+  }, []);
+
+  console.log(userData);
+
+  const handlePress = (item) => {
+    navigation.navigate("ViewList", { item });
+  };
+
   return (
     <SafeAreaView style={commonStyles.container}>
       <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
@@ -48,13 +88,13 @@ export default ({ route, navigation }) => {
             <View style={styles.containerTitulo}>
               <Text style={styles.titulo}>Minhas Listas</Text>
             </View>
-            {minhasListas.map((item, index) => (
+            {userData.map((item, index) => (
               <>
                 <View style={styles.containerFlexList} key={index}>
                   <View>
                     <TouchableOpacity
                       activeOpacity={0.7}
-                      onPress={() => handlePress()}
+                      onPress={() => handlePress(item)}
                     >
                       <Image
                         source={require("../../assets/relampagoMcQueen.jpg")}
