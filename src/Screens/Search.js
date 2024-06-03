@@ -31,6 +31,7 @@ export default (props) => {
 
   return (
     <SafeAreaView style={commonStyles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <View style={styles.container}>
         <TopBar />
 

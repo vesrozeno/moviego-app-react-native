@@ -15,7 +15,6 @@ export default function HomeNavigationTabs() {
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: "#4E4C4C",
-          paddingTop: 7,
           borderTopWidth: 0.5,
           borderTopColor: "gray",
           height: "7.5%",
