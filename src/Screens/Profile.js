@@ -29,7 +29,7 @@ export default ({ route, navigation }) => {
 
       let userDataFound = null;
       parsedData.forEach((element) => {
-        if (element.id_user === id_user) {
+        if (element.id_user === id_user.id_user) {
           userDataFound = element;
         }
       });
@@ -75,14 +75,7 @@ export default ({ route, navigation }) => {
           marginBottom: 30,
           paddingTop: 5,
         }}
-      >
-        {userData && userData.image ? (
-          <>
-            <Image source={{ uri: userData.image }} style={styles.imageIcon} />
-            <Text style={styles.name_text}>{userData.name}</Text>
-          </>
-        ) : null}
-      </View>
+      ></View>
       <ScrollView
         style={commonStyles.container}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
@@ -110,8 +103,15 @@ export default ({ route, navigation }) => {
                 paddingTop: 5,
               }}
             >
-              <FontAwesome name="user-circle" size={55} color="#ccc" />
-              <Text style={styles.name_text}>Nome do usuário</Text>
+              {userData && userData.image ? (
+                <>
+                  <Image
+                    source={{ uri: userData.image }}
+                    style={styles.imageIcon}
+                  />
+                  <Text style={styles.name_text}>{userData.name}</Text>
+                </>
+              ) : null}
             </View>
 
             <View
