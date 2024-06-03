@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 //const { width } = Dimensions.get("window");
 const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
 
-export default ({ title, list_type }) => {
+export default ({ title, list_type, id_user }) => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const navigation = useNavigation();
@@ -47,7 +47,7 @@ export default ({ title, list_type }) => {
   };
 
   const goToMovieScreen = () => {
-    navigation.navigate("MovieStack", { movieId: selectedMovie.id });
+    navigation.navigate("MovieStack", { movieId: selectedMovie.id, id_user });
     closeModal();
   };
 
