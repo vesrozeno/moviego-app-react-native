@@ -89,10 +89,6 @@ export default ({ route, navigation }) => {
                 alignItems: "flex-end",
               }}
             >
-              <TouchableOpacity style={styles.edit_button}>
-                <Text style={styles.edit_text}>editar dados</Text>
-                <FontAwesome name="pencil" size={15} color="#ccc" />
-              </TouchableOpacity>
             </View>
             <View
               style={{
@@ -120,6 +116,7 @@ export default ({ route, navigation }) => {
                 alignItems: "center",
               }}
             >
+              {/*Alterar as navigations*/}
               <TouchableOpacity
                 style={styles.statsButton}
                 onPress={() => navigation.navigate("SignInStack")}
