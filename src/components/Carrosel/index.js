@@ -9,11 +9,17 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  Vibration,
+  TouchableHighlight,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { FontAwesome } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/Ionicons";
+import { Divider } from "react-native-paper";
+
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import * as Haptics from "expo-haptics";
 
 //const { width } = Dimensions.get("window");
 const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
@@ -22,7 +28,19 @@ export default ({ title, list_type, id_user }) => {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const navigation = useNavigation();
+  const [seen, setSeen] = useState(false); // Depois mudar aqui pra receber se o filme já está em alguma dessas listas
+  const [fav, setFav] = useState(false);
+  const [wlist, setWList] = useState(false);
 
+  const toggleSeen = () => {
+    setSeen(!seen);
+  };
+  const toggleFav = () => {
+    setFav(!fav);
+  };
+  const toggleWList = () => {
+    setWList(!wlist);
+  };
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -38,8 +56,12 @@ export default ({ title, list_type, id_user }) => {
     fetchMovies();
   }, []);
 
-  const handlePress = (movie) => {
+  const handleLongPress = (movie) => {
     setSelectedMovie(movie);
+  };
+
+  const handlePress = (id) => {
+    navigation.navigate("MovieStack", { movieId: id });
   };
 
   const closeModal = () => {
@@ -50,9 +72,20 @@ export default ({ title, list_type, id_user }) => {
     navigation.navigate("MovieStack", { movieId: selectedMovie.id, id_user });
     closeModal();
   };
-
+  const formatDate = (dateString) => {
+    const [year, month, day] = dateString.split("-");
+    return `${year}`;
+  };
   const renderItem = ({ item }) => (
-    <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress(item)}>
+    <TouchableOpacity
+      activeOpacity={0.6}
+      underlayColor="#626060"
+      onLongPress={() => (
+        handleLongPress(item),
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+      )}
+      onPress={() => handlePress(item.id)}
+    >
       <Image
         source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
         resizeMode="cover"
@@ -63,19 +96,20 @@ export default ({ title, list_type, id_user }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.containerTitulo}
+      <TouchableHighlight
         activeOpacity={0.7}
         //onPress={() => moveTela()}
       >
-        <Text style={styles.titulo}>{title}</Text>
-        <FontAwesome
-          name="chevron-right"
-          size={15}
-          color="#4E4C4C"
-          style={styles.botao}
-        />
-      </TouchableOpacity>
+        <View style={styles.containerTitulo}>
+          <Text style={styles.titulo}>{title}</Text>
+          <FontAwesome
+            name="chevron-right"
+            size={15}
+            color="#4E4C4C"
+            style={styles.botao}
+          />
+        </View>
+      </TouchableHighlight>
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
@@ -88,42 +122,62 @@ export default ({ title, list_type, id_user }) => {
         renderItem={renderItem}
       />
       {selectedMovie && (
-        <Modal visible={true} animationType="slide" transparent={true}>
+        <Modal visible={true} animationType="fade" transparent={true}>
           <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>{selectedMovie.title}</Text>
+            <Text style={styles.modalSubtitle}>
+              {formatDate(selectedMovie.release_date)}
+            </Text>
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>{selectedMovie.title}</Text>
-              <Text style={styles.modalSubtitle}>
-                {selectedMovie.release_date}
-              </Text>
               <View style={styles.actionContainer}>
-                <TouchableOpacity style={styles.actionButton}>
-                  <FontAwesome name="eye" size={30} color="#fff" />
+                <TouchableOpacity
+                  style={styles.actionButton}
+                  onPress={toggleSeen}
+                >
+                  <Icon
+                    name={seen ? "eye" : "eye-outline"}
+                    size={50}
+                    color="#fff"
+                  />
                   <Text style={styles.actionText}>Já vi</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.actionButton}>
-                  <FontAwesome name="heart" size={30} color="#fff" />
+                <TouchableOpacity
+                  style={styles.actionButton}
+                  onPress={toggleFav}
+                >
+                  <Icon
+                    name={fav ? "star" : "star-outline"}
+                    size={50}
+                    color="#fff"
+                  />
                   <Text style={styles.actionText}>Favoritos</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.actionButton}>
-                  <FontAwesome name="plus" size={30} color="#fff" />
+                <TouchableOpacity
+                  style={styles.actionButton}
+                  onPress={toggleWList}
+                >
+                  <Icon
+                    name={wlist ? "time" : "time-outline"}
+                    size={50}
+                    color="#fff"
+                  />
                   <Text style={styles.actionText}>Quero ver</Text>
                 </TouchableOpacity>
               </View>
               <View>
-                <TouchableOpacity
+                <TouchableHighlight
                   style={styles.actionButtonText}
+                  activeOpacity={0.6}
+                  underlayColor="#626060"
                   onPress={goToMovieScreen}
                 >
-                  <Text style={styles.buttonText}>mais informações</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.actionButtonText}>
-                  <Text style={styles.buttonText}>Adicionar à listas</Text>
-                </TouchableOpacity>
+                  <Text style={styles.buttonText}>Ir para o filme</Text>
+                </TouchableHighlight>
               </View>
-              <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
-                <Text style={styles.closeButtonText}>Concluído</Text>
-              </TouchableOpacity>
             </View>
+            <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>Concluído</Text>
+            </TouchableOpacity>
           </View>
         </Modal>
       )}
@@ -164,14 +218,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
+    paddingHorizontal: 15,
+    backgroundColor: "rgba(0,0,0,0.85)",
   },
   modalContent: {
-    width: "80%",
-    backgroundColor: "#444",
-    borderRadius: 10,
-    padding: 20,
+    width: 353,
+    backgroundColor: "#4E4C4C",
+    borderRadius: 9,
     alignItems: "center",
+    paddingHorizontal: 15,
   },
   modalTitle: {
     color: "#fff",
@@ -182,8 +237,9 @@ const styles = StyleSheet.create({
   },
   modalSubtitle: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 17,
     marginTop: 0,
+    marginBottom: 5,
   },
   modalDirector: {
     color: "#fff",
@@ -202,23 +258,25 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     marginTop: 20,
-    backgroundColor: "#555",
-    borderRadius: 25,
+    backgroundColor: "#4E4C4C",
+    borderRadius: 9,
     alignItems: "center",
     justifyContent: "center",
     height: 50,
-    width: "100%",
+    width: 171,
   },
   closeButtonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: "bold",
   },
   actionContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginBottom: 20,
-    width: "100%",
+    paddingBottom: 12,
     marginTop: 20,
+    borderBottomWidth: 1,
+    borderBlockColor: "#fff",
   },
   actionButton: {
     alignItems: "center",
@@ -227,15 +285,17 @@ const styles = StyleSheet.create({
   actionText: {
     color: "#fff",
     marginTop: 5,
+    fontSize: 12,
+    fontWeight: "regular",
   },
   buttonText: {
     margin: 15,
     color: "#fff",
-    fontSize: 18,
+    fontSize: 20,
   },
   actionButtonText: {
-    backgroundColor: "#000",
-    borderRadius: 25,
+    backgroundColor: "#4E4C4C",
+    width: 340,
     alignItems: "center",
     justifyContent: "center",
     margin: 5,

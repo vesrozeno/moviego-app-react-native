@@ -9,7 +9,7 @@ import {
   StatusBar,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-//import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import * as ImagePicker from "expo-image-picker";
 import { setItem, getItem } from "../storage/AsyncStorage";
 
@@ -17,22 +17,6 @@ export default ({ route, navigation }) => {
   const { id_user } = route.params;
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
-
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [data, setData] = useState(null);
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-  const handleConfirmDate = (date) => {
-    dataLida =
-      date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-    setData(dataLida);
-    hideDatePicker();
-  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -47,13 +31,13 @@ export default ({ route, navigation }) => {
     }
   };
 
-  const saveUserData = async (id_user, name, data, image) => {
+  const saveUserData = async (id_user, name, image) => {
     try {
       // Recupera usuários já existentes
       const storedData = await getItem("@userData");
       const parsedData = storedData ? JSON.parse(storedData) : [];
       // Cria um novo objeto email e senha
-      const newData = { id_user, name, data, image };
+      const newData = { id_user, name, image };
       // Adiciona novo objeto ao array de credenciais
       parsedData.push(newData);
       // Salva o array atualizado de credenciais
@@ -100,23 +84,9 @@ export default ({ route, navigation }) => {
           defaultValue={name}
         />
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity style={styles.dateInput} onPress={showDatePicker}>
-            <FontAwesome name="calendar" size={14} color="#4E4C4C" />
-            <Text style={styles.dateInputText}>
-              {data == null ? "Data de nascimento" : data}
-            </Text>
-          </TouchableOpacity>
-          {/* <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            locale="pt_BR"
-            onConfirm={handleConfirmDate}
-            onCancel={hideDatePicker}
-            containerStyle={styles.dateInput}
-          /> */}
           <TouchableOpacity
             style={styles.completeButton}
-            onPress={() => saveUserData(id_user, name, data, image)}
+            onPress={() => saveUserData(id_user, name, image)}
           >
             <Text style={styles.completeButtonText}>CONCLUIR</Text>
           </TouchableOpacity>
