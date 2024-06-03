@@ -162,7 +162,7 @@ export default ({ route }) => {
               rating={movieDetails.vote_average / 2}
               color={"white"}
               starSize={20}
-              enableHalfStar={true}
+              enableHalfStar={1}
             />
           </View>
 
