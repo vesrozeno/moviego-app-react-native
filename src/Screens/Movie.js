@@ -129,7 +129,7 @@ export default ({ route, navigation }) => {
       if (list1 && list1.length > 0) {
         let movieInList = list1.includes(movieId);
         if (movieInList) {
-          setSeen(true);
+          setFav(true);
         }
       }
 
@@ -138,7 +138,7 @@ export default ({ route, navigation }) => {
       if (list2 && list2.length > 0) {
         let movieInList = list2.includes(movieId);
         if (movieInList) {
-          setSeen(true);
+          setWList(true);
         }
       }
     }
