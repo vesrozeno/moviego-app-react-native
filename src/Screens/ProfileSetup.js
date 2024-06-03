@@ -9,8 +9,14 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import * as ImagePicker from "expo-image-picker";
+import { setItem, getItem } from "../storage/AsyncStorage";
 
 export default ({ route, navigation }) => {
+  const { id_user } = route.params;
+  const [name, setName] = useState("");
+  const [image, setImage] = useState(null);
+
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [data, setData] = useState(null);
 
@@ -26,6 +32,39 @@ export default ({ route, navigation }) => {
     setData(dataLida);
     hideDatePicker();
   };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  const saveUserData = async (id_user, name, data, image) => {
+    try {
+      // Recupera usuários já existentes
+      const storedData = await getItem("@userData");
+      const parsedData = storedData ? JSON.parse(storedData) : [];
+      // Cria um novo objeto email e senha
+      const newData = { id_user, name, data, image };
+      // Adiciona novo objeto ao array de credenciais
+      parsedData.push(newData);
+      // Salva o array atualizado de credenciais
+      await setItem("@userData", JSON.stringify(parsedData));
+
+      console.log("Dados salvos com sucesso", newData);
+      navigation.navigate("SignInStack");
+    } catch (error) {
+      console.error("Erro ao salvar dados: ", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image source={require("../img/moviego-big.png")} style={styles.logo} />
@@ -38,8 +77,15 @@ export default ({ route, navigation }) => {
             paddingTop: 10,
           }}
         >
-          <FontAwesome name="user-circle" size={55} color="#ccc" />
-          <TouchableOpacity style={styles.photoUploadButton}>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.imageIcon} />
+          ) : (
+            <FontAwesome name="user-circle" size={55} color="#ccc" />
+          )}
+          <TouchableOpacity
+            style={styles.photoUploadButton}
+            onPress={pickImage}
+          >
             <Text style={styles.photoUploadText}>Fazer upload de foto</Text>
           </TouchableOpacity>
         </View>
@@ -47,6 +93,8 @@ export default ({ route, navigation }) => {
           style={styles.input}
           placeholder="Seu nome"
           placeholderTextColor="#4E4C4C"
+          onChangeText={(newText) => setName(newText)}
+          defaultValue={name}
         />
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity style={styles.dateInput} onPress={showDatePicker}>
@@ -65,7 +113,7 @@ export default ({ route, navigation }) => {
           />
           <TouchableOpacity
             style={styles.completeButton}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => saveUserData(id_user, name, data, image)}
           >
             <Text style={styles.completeButtonText}>CONCLUIR</Text>
           </TouchableOpacity>
@@ -114,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 20,
     fontSize: 14,
-    color: "#fff",
+    color: "#000",
     marginBottom: 25,
   },
   dateInput: {
@@ -144,5 +192,10 @@ const styles = StyleSheet.create({
   completeButtonText: {
     color: "#fff",
     fontSize: 14,
+  },
+  imageIcon: {
+    width: 55,
+    height: 55,
+    borderRadius: 27.5,
   },
 });

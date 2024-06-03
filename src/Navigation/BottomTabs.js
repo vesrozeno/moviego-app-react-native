@@ -7,8 +7,12 @@ import {
   ListsNavigation,
   ProfileNavigation,
 } from "./StackNavigation";
+
 const Tab = createBottomTabNavigator();
-export default function HomeNavigationTabs() {
+
+export default function HomeNavigationTabs({ route }) {
+  const { id_user } = route.params;
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -76,6 +80,7 @@ export default function HomeNavigationTabs() {
       <Tab.Screen
         name="ProfileTab"
         component={ProfileNavigation}
+        initialParams={{ id_user: id_user }}
         options={{
           tabBarIcon: ({ focused }) => (
             <>

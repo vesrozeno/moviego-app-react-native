@@ -72,11 +72,11 @@ export function HomeNavigation({ navigation }) {
       />
 
       <Stack.Screen
-        name='MovieStack'
+        name="MovieStack"
         component={Movie}
         options={{
           headerShown: false,
-          title: 'Movie'
+          title: "Movie",
         }}
       />
     </Stack.Navigator>
@@ -113,12 +113,14 @@ export function ListsNavigation({ navigation }) {
   );
 }
 
-export function ProfileNavigation({ navigation }) {
+export function ProfileNavigation({ route, navigation }) {
+  const id_user = route.params;
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="ProfileStack"
         component={Profile}
+        initialParams={{ id_user: id_user }}
         options={{
           headerShown: false,
           title: "Profile",

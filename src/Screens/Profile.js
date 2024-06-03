@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,49 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import TopBar from "../components/TopBar";
+
+import { setItem, getItem } from "../storage/AsyncStorage";
+
 export default ({ route, navigation }) => {
+  const { id_user } = route.params;
+  console.log(id_user);
+
+  const [userData, setUserData] = useState(null);
+
+  const searchUserData = async (id_user) => {
+    try {
+      const storedData = await getItem("@userData");
+      const parsedData = storedData ? JSON.parse(storedData) : [];
+
+      let userDataFound = null;
+      parsedData.forEach((element) => {
+        if (element.id_user === id_user) {
+          userDataFound = element;
+        }
+      });
+
+      if (userDataFound) {
+        console.log("Usuário encontrado: ", userDataFound);
+        return userDataFound;
+      } else {
+        console.log("Usuário não encontrado.");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Carrega dados do usuário
+  useEffect(() => {
+    (async () => {
+      const data = await searchUserData(id_user);
+      setUserData(data);
+    })();
+  }, []);
+
+  console.log(userData);
+
   return (
     <View style={styles.containerTop}>
       <TopBar></TopBar>
@@ -35,8 +77,15 @@ export default ({ route, navigation }) => {
             paddingTop: 5,
           }}
         >
-          <FontAwesome name="user-circle" size={55} color="#ccc" />
-          <Text style={styles.name_text}>Nome do usuário</Text>
+          {userData && userData.image ? (
+            <>
+              <Image
+                source={{ uri: userData.image }}
+                style={styles.imageIcon}
+              />
+              <Text style={styles.name_text}>{userData.name}</Text>
+            </>
+          ) : null}
         </View>
 
         <View
@@ -156,5 +205,10 @@ const styles = StyleSheet.create({
   completeButtonText: {
     color: "#fff",
     fontSize: 14,
+  },
+  imageIcon: {
+    width: 55,
+    height: 55,
+    borderRadius: 27.5,
   },
 });

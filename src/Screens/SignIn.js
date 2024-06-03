@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,41 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Alert,
 } from "react-native";
+import { setItem, getItem } from "../storage/AsyncStorage";
+
 export default ({ route, navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const searchAccount = async (email, password) => {
+    try {
+      // Recupera usuários já existentes
+      const storedData = await getItem("@credentials");
+      const parsedData = storedData ? JSON.parse(storedData) : [];
+
+      let userFound = null;
+      let id_user = null;
+      parsedData.forEach((element) => {
+        if (element.email === email && element.password === password) {
+          userFound = element;
+          id_user = element.id_user;
+        }
+      });
+
+      if (userFound) {
+        console.log("Usuário encontrado: ", userFound);
+        navigation.navigate("Home", { id_user });
+      } else {
+        console.log("Usuário não encontrado.");
+        Alert.alert("Incorrect", "Email or Passoword incorrect");
+      }
+    } catch (error) {
+      console.error("Erro ao buscar dados: ", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image source={require("../img/moviego-big.png")} style={styles.logo} />
@@ -25,12 +58,16 @@ export default ({ route, navigation }) => {
           placeholderTextColor="#4E4C4C"
           keyboardType="email-address"
           autoCapitalize="none"
+          onChangeText={(newText) => setEmail(newText)}
+          defaultValue={email}
         />
         <TextInput
           style={styles.input}
           placeholder="senha"
           placeholderTextColor="#4E4C4C"
           secureTextEntry
+          onChangeText={(newText) => setPassword(newText)}
+          defaultValue={password}
         />
         <View
           style={{
@@ -40,7 +77,7 @@ export default ({ route, navigation }) => {
         >
           <TouchableOpacity
             style={styles.createButton}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => searchAccount(email, password)}
           >
             <Text style={styles.createButtonText}>ENTRAR</Text>
           </TouchableOpacity>
@@ -86,7 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 20,
     fontSize: 14,
-    color: "#fff",
+    color: "#000",
     marginBottom: 15,
   },
   createButton: {
