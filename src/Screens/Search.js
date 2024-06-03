@@ -12,6 +12,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 // custom Components
 import TopBar from "../components/TopBar";
+import commonStyles from "../../styles/commonStyles";
 
 export default (props) => {
   const initialState = "";
@@ -29,7 +30,7 @@ export default (props) => {
   }
 
   return (
-    <>
+    <SafeAreaView style={commonStyles.container}>
       <View style={styles.container}>
         <TopBar />
 
@@ -60,7 +61,7 @@ export default (props) => {
           ></SearchBar>
         </View>
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 
