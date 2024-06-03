@@ -1,4 +1,4 @@
-package com.moviegoappreactnative
+package com.breau.moviegoappreactnative
 
 import android.os.Build
 import android.os.Bundle

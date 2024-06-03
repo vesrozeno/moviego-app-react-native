@@ -9,7 +9,7 @@ import {
   StatusBar,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+//import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default ({ route, navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -58,14 +58,14 @@ export default ({ route, navigation }) => {
               {data == null ? "Data de nascimento" : data}
             </Text>
           </TouchableOpacity>
-          <DateTimePickerModal
+          {/* <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
             locale="pt_BR"
             onConfirm={handleConfirmDate}
             onCancel={hideDatePicker}
             containerStyle={styles.dateInput}
-          />
+          /> */}
           <TouchableOpacity
             style={styles.completeButton}
             onPress={() => navigation.navigate("Home")}
