@@ -6,9 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  StatusBar,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+//import DateTimePickerModal from "react-native-modal-datetime-picker";
 import * as ImagePicker from "expo-image-picker";
 import { setItem, getItem } from "../storage/AsyncStorage";
 
@@ -67,12 +68,14 @@ export default ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <Image source={require("../img/moviego-big.png")} style={styles.logo} />
       <View style={styles.formContainer}>
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-around",
             paddingBottom: 20,
             paddingTop: 10,
           }}
@@ -103,14 +106,14 @@ export default ({ route, navigation }) => {
               {data == null ? "Data de nascimento" : data}
             </Text>
           </TouchableOpacity>
-          <DateTimePickerModal
+          {/* <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
             locale="pt_BR"
             onConfirm={handleConfirmDate}
             onCancel={hideDatePicker}
             containerStyle={styles.dateInput}
-          />
+          /> */}
           <TouchableOpacity
             style={styles.completeButton}
             onPress={() => saveUserData(id_user, name, data, image)}
@@ -146,14 +149,17 @@ const styles = StyleSheet.create({
   photoUploadButton: {
     backgroundColor: "#4E4C4C",
     borderRadius: 8,
-    width: 145,
+    width: "45%",
     marginLeft: 25,
     height: 33,
     alignItems: "center",
+    alignContent: "center",
   },
   photoUploadText: {
     color: "#ccc",
     marginTop: 10,
+    fontSize: 11,
+    fontStyle: "italic",
   },
   input: {
     width: 305,

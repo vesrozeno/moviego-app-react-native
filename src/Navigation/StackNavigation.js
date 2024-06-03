@@ -94,6 +94,15 @@ export function SearchNavigation({ navigation }) {
           title: "SEARCH",
         }}
       />
+
+      <Stack.Screen
+        name='MovieStack'
+        component={Movie}
+        options={{
+          headerShown: false,
+          title: 'Movie'
+        }}
+      />
     </Stack.Navigator>
   );
 }

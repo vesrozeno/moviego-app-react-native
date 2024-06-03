@@ -7,6 +7,9 @@ import {
   FlatList,
   Dimensions,
   Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 // Custom Components
@@ -40,55 +43,53 @@ const minhasListas = [
 
 export default ({ route, navigation }) => {
   return (
-    <View style={commonStyles.container}>
+    <SafeAreaView style={commonStyles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <TopBar></TopBar>
-
-      <View style={styles.container}>
-        <View style={styles.containerTitulo}>
-          <Text style={styles.titulo}>Minhas Listas</Text>
-          <TouchableOpacity style={styles.botao} activeOpacity={0.7}>
-            <Text style={styles.textoBotao}>Nova lista</Text>
-            <AntDesign name="pluscircle" size={24} color="#FFF" />
-          </TouchableOpacity>
-        </View>
-
-        <FlatList
-          data={minhasListas}
-          keyExtractor={(item) => String(item)}
-          snapToAlignment={"start"}
-          scrollEventThrottle={16}
-          decelerationRate={"fast"}
-          style={styles.flatListStyle}
-          renderItem={({ item }) => (
-            <>
-              <View style={styles.containerFlexList}>
-                <View
-                  style={{
-                    backgroundColor: item.color,
-                    height: width / 2.4,
-                    width: width * 0.3,
-                    marginHorizontal: 7,
-                    borderRadius: 12,
-                  }}
-                >
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => handlePress()}
+      <ScrollView
+        style={commonStyles.container}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        <View style={commonStyles.container}>
+          <View style={styles.container}>
+            <View style={styles.containerTitulo}>
+              <Text style={styles.titulo}>Minhas Listas</Text>
+              <TouchableOpacity style={styles.botao} activeOpacity={0.7}>
+                <Text style={styles.textoBotao}>Nova lista</Text>
+                <AntDesign name="pluscircle" size={24} color="#FFF" />
+              </TouchableOpacity>
+            </View>
+            {minhasListas.map((item, index) => (
+              <>
+                <View style={styles.containerFlexList} key={index}>
+                  <View
+                    style={{
+                      backgroundColor: item.color,
+                      height: width / 2.4,
+                      width: width * 0.3,
+                      marginHorizontal: 7,
+                      borderRadius: 12,
+                    }}
                   >
-                    <Image
-                      source={require("../../assets/relampagoMcQueen.jpg")}
-                      resizeMode="repeat"
-                      style={{ height: width / 2.4, width: width * 0.3 }}
-                    />
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={0.7}
+                      onPress={() => handlePress()}
+                    >
+                      <Image
+                        source={require("../../assets/relampagoMcQueen.jpg")}
+                        resizeMode="repeat"
+                        style={{ height: width / 2.4, width: width * 0.3 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <Text style={styles.nomeLista}>{item.name}</Text>
                 </View>
-                <Text style={styles.nomeLista}>{item.name}</Text>
-              </View>
-            </>
-          )}
-        />
-      </View>
-    </View>
+              </>
+            ))}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

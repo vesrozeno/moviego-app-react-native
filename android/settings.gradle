@@ -1,4 +1,4 @@
-rootProject.name = 'moviegoappreactnative'
+rootProject.name = 'moviego-app-react-native'
 
 dependencyResolutionManagement {
   versionCatalogs {

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  StatusBar,
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -38,6 +39,7 @@ export default ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <Image source={require("../img/moviego-big.png")} style={styles.logo} />
       <View
         style={{

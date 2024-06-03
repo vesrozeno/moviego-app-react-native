@@ -6,9 +6,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import TopBar from "../components/TopBar";
+import commonStyles from "../../styles/commonStyles";
 
 import { setItem, getItem } from "../storage/AsyncStorage";
 
@@ -53,7 +57,8 @@ export default ({ route, navigation }) => {
   console.log(userData);
 
   return (
-    <View style={styles.containerTop}>
+    <SafeAreaView style={commonStyles.container}>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <TopBar></TopBar>
       <View>
         <View
@@ -87,55 +92,87 @@ export default ({ route, navigation }) => {
             </>
           ) : null}
         </View>
+      <ScrollView
+        style={commonStyles.container}
+        contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
+      >
+        <View style={styles.containerTop}>
+          <View>
+            <View
+              style={{
+                marginTop: 10,
+                marginRight: 25,
+                alignItems: "flex-end",
+              }}
+            >
+              <TouchableOpacity style={styles.edit_button}>
+                <Text style={styles.edit_text}>editar dados</Text>
+                <FontAwesome name="pencil" size={15} color="#ccc" />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                marginBottom: 30,
+                paddingTop: 5,
+              }}
+            >
+              <FontAwesome name="user-circle" size={55} color="#ccc" />
+              <Text style={styles.name_text}>Nome do usuário</Text>
+            </View>
 
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TouchableOpacity
-            style={styles.statsButton}
-            onPress={() => navigation.navigate("SignInStack")}
-          >
-            <View style={{ flexDirection: "column" }}>
-              <FontAwesome name="eye" size={30} color="#ccc" />
-              <Text style={styles.tinyButtonText}>Já vi</Text>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={styles.statsButton}
+                onPress={() => navigation.navigate("SignInStack")}
+              >
+                <View style={{ flexDirection: "column" }}>
+                  <FontAwesome name="eye" size={30} color="#ccc" />
+                  <Text style={styles.tinyButtonText}>Já vi</Text>
+                </View>
+                <Text style={styles.statsButtonText}>100 filmes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.statsButton}
+                onPress={() => navigation.navigate("SignInStack")}
+              >
+                <View style={{ flexDirection: "column" }}>
+                  <FontAwesome name="star" size={30} color="#ccc" />
+                  <Text style={styles.tinyButtonText}>Favoritos</Text>
+                </View>
+                <Text style={styles.statsButtonText}>56 filmes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.statsButton}
+                onPress={() => navigation.navigate("SignInStack")}
+              >
+                <View style={{ flexDirection: "column" }}>
+                  <FontAwesome name="list" size={30} color="#ccc" />
+                  <Text style={styles.tinyButtonText}>Quero ver</Text>
+                </View>
+                <Text style={styles.statsButtonText}>89 filmes</Text>
+              </TouchableOpacity>
             </View>
-            <Text style={styles.statsButtonText}>100 filmes</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.statsButton}
-            onPress={() => navigation.navigate("SignInStack")}
-          >
-            <View style={{ flexDirection: "column" }}>
-              <FontAwesome name="star" size={30} color="#ccc" />
-              <Text style={styles.tinyButtonText}>Favoritos</Text>
-            </View>
-            <Text style={styles.statsButtonText}>56 filmes</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.statsButton}
-            onPress={() => navigation.navigate("SignInStack")}
-          >
-            <View style={{ flexDirection: "column" }}>
-              <FontAwesome name="list" size={30} color="#ccc" />
-              <Text style={styles.tinyButtonText}>Quero ver</Text>
-            </View>
-            <Text style={styles.statsButtonText}>89 filmes</Text>
-          </TouchableOpacity>
-        </View>
 
-        <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            style={styles.completeButton}
-            onPress={() => navigation.navigate("SignInStack")}
-          >
-            <Text style={styles.completeButtonText}>SAIR</Text>
-          </TouchableOpacity>
+            <View style={{ alignItems: "center" }}>
+              <TouchableOpacity
+                style={styles.completeButton}
+                onPress={() => navigation.navigate("SignInStack")}
+              >
+                <Text style={styles.completeButtonText}>SAIR</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
