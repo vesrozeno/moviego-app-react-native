@@ -80,11 +80,9 @@ export default (props) => {
           />
         </View>
         {loading ? (
-          <ActivityIndicator
-            size="large"
-            color="#0000ff"
-            style={styles.loading}
-          />
+          <View style={styles.containerLoading}>
+            <ActivityIndicator size="large" color="#fff" />
+          </View>
         ) : (
           <MovieList movies={movies} />
         )}
@@ -111,7 +109,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "auto",
   },
-  loading: {
-    marginTop: 20,
+  containerLoading: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

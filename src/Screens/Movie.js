@@ -47,6 +47,8 @@ export default ({ route }) => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
+        setLoading(true);
+
         const response = await axios.get(
           `https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}&language=pt-BR`
         );
@@ -388,6 +390,16 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   cast_list: {
+    backgroundColor: "#323232",
+  },
+  loadingContainer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#323232",
   },
 });

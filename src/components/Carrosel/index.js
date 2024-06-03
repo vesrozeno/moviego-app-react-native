@@ -78,7 +78,8 @@ export default ({ title, list_type }) => {
   };
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.6}
+      underlayColor="#626060"
       onLongPress={() => (
         handleLongPress(item),
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
@@ -95,19 +96,20 @@ export default ({ title, list_type }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.containerTitulo}
+      <TouchableHighlight
         activeOpacity={0.7}
         //onPress={() => moveTela()}
       >
-        <Text style={styles.titulo}>{title}</Text>
-        <FontAwesome
-          name="chevron-right"
-          size={15}
-          color="#4E4C4C"
-          style={styles.botao}
-        />
-      </TouchableOpacity>
+        <View style={styles.containerTitulo}>
+          <Text style={styles.titulo}>{title}</Text>
+          <FontAwesome
+            name="chevron-right"
+            size={15}
+            color="#4E4C4C"
+            style={styles.botao}
+          />
+        </View>
+      </TouchableHighlight>
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
