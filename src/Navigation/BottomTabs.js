@@ -32,7 +32,7 @@ export default function HomeNavigationTabs() {
           tabBarIcon: ({ focused }) => (
             <>
               <Ionicons
-                size={"25%"}
+                size={25}
                 name={focused ? "home" : "home-outline"}
                 color={focused ? "white" : "gray"}
               />
@@ -47,7 +47,7 @@ export default function HomeNavigationTabs() {
           tabBarIcon: ({ focused }) => (
             <>
               <Ionicons
-                size={"25%"}
+                size={25}
                 name={focused ? "search" : "search-outline"}
                 color={focused ? "white" : "gray"}
               />
@@ -62,7 +62,7 @@ export default function HomeNavigationTabs() {
           tabBarIcon: ({ focused }) => (
             <>
               <Ionicons
-                size={"25%"}
+                size={25}
                 name={focused ? "list" : "list-outline"}
                 color={focused ? "white" : "gray"}
               />
@@ -77,7 +77,7 @@ export default function HomeNavigationTabs() {
           tabBarIcon: ({ focused }) => (
             <>
               <Ionicons
-                size={"25%"}
+                size={25}
                 name={focused ? "person" : "person-outline"}
                 color={focused ? "white" : "gray"}
               />
