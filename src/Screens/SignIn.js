@@ -79,7 +79,16 @@ export default ({ route, navigation }) => {
         >
           <TouchableOpacity
             style={styles.createButton}
-            onPress={() => searchAccount(email, password)}
+            onPress={() => {
+              if(email.trim() !== '' && password.trim() !== ''){
+                searchAccount(email, password)
+              } else {
+                Alert.alert(
+                  "Campos Vazios",
+                  "Por favor, preencha todos os campos para entrar em uma conta."
+                );
+              }
+            }}
           >
             <Text style={styles.createButtonText}>ENTRAR</Text>
           </TouchableOpacity>

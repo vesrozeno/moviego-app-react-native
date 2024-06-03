@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   StatusBar,
+  Alert
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -74,7 +75,16 @@ export default ({ route, navigation }) => {
         >
           <TouchableOpacity
             style={styles.createButton}
-            onPress={() => createAccount(email, password)}
+            onPress={() => {
+              if(email.trim() !== '' && password.trim() != ''){
+                createAccount(email, password)
+              } else {
+                Alert.alert(
+                  "Campos Vazios",
+                  "Por favor, preencha todos os campos antes de criar uma conta."
+                );
+              }
+            }}
           >
             <Text style={styles.createButtonText}>CRIAR</Text>
           </TouchableOpacity>
