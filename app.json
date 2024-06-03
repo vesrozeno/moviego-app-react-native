@@ -2,6 +2,11 @@
   "expo": {
     "name": "moviego-app-react-native",
     "slug": "moviego-app-react-native",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "a9afe049-39cc-4c44-9f56-0d977f77bb65"
+      }
+    }
   }
 }
