@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,35 @@ import {
   Image,
   StatusBar,
 } from "react-native";
+import uuid from "react-native-uuid";
+
+import { setItem, getItem } from "../storage/AsyncStorage";
+
 export default ({ route, navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const createAccount = async (email, password) => {
+    try {
+      // Gera um id para novo usuário
+      id_user = uuid.v4();
+      // Recupera usuários já existentes
+      const storedData = await getItem("@credentials");
+      const parsedData = storedData ? JSON.parse(storedData) : [];
+      // Cria um novo objeto email e senha
+      const newCredentials = { id_user, email, password };
+      // Adiciona novo objeto ao array de credenciais
+      parsedData.push(newCredentials);
+      // Salva o array atualizado de credenciais
+      await setItem("@credentials", JSON.stringify(parsedData));
+
+      console.log("Credenciais salvas com sucesso", newCredentials);
+      navigation.navigate("ProfileSetupStack", { id_user });
+    } catch (error) {
+      console.error("Erro ao salvar credenciais: ", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
@@ -27,12 +55,16 @@ export default ({ route, navigation }) => {
           placeholderTextColor="#4E4C4C"
           keyboardType="email-address"
           autoCapitalize="none"
+          onChangeText={(newText) => setEmail(newText)}
+          defaultValue={email}
         />
         <TextInput
           style={styles.input}
           placeholder="senha"
           placeholderTextColor="#4E4C4C"
           secureTextEntry
+          onChangeText={(newText) => setPassword(newText)}
+          defaultValue={password}
         />
         <View
           style={{
@@ -42,7 +74,7 @@ export default ({ route, navigation }) => {
         >
           <TouchableOpacity
             style={styles.createButton}
-            onPress={() => navigation.navigate("ProfileSetupStack")}
+            onPress={() => createAccount(email, password)}
           >
             <Text style={styles.createButtonText}>CRIAR</Text>
           </TouchableOpacity>
@@ -86,7 +118,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 20,
     fontSize: 14,
-    color: "#fff",
+    color: "#000",
     marginBottom: 15,
   },
   createButton: {

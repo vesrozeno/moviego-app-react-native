@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,11 +13,76 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import TopBar from "../components/TopBar";
 import commonStyles from "../../styles/commonStyles";
+
+import { setItem, getItem } from "../storage/AsyncStorage";
+
 export default ({ route, navigation }) => {
+  const { id_user } = route.params;
+  console.log(id_user);
+
+  const [userData, setUserData] = useState(null);
+
+  const searchUserData = async (id_user) => {
+    try {
+      const storedData = await getItem("@userData");
+      const parsedData = storedData ? JSON.parse(storedData) : [];
+
+      let userDataFound = null;
+      parsedData.forEach((element) => {
+        if (element.id_user === id_user) {
+          userDataFound = element;
+        }
+      });
+
+      if (userDataFound) {
+        console.log("Usuário encontrado: ", userDataFound);
+        return userDataFound;
+      } else {
+        console.log("Usuário não encontrado.");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Carrega dados do usuário
+  useEffect(() => {
+    (async () => {
+      const data = await searchUserData(id_user);
+      setUserData(data);
+    })();
+  }, []);
+
+  console.log(userData);
+
   return (
     <SafeAreaView style={commonStyles.container}>
       <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <TopBar></TopBar>
+      <View
+        style={{
+          marginTop: 10,
+          marginRight: 10,
+          alignItems: "flex-end",
+        }}
+      ></View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          marginBottom: 30,
+          paddingTop: 5,
+        }}
+      >
+        {userData && userData.image ? (
+          <>
+            <Image source={{ uri: userData.image }} style={styles.imageIcon} />
+            <Text style={styles.name_text}>{userData.name}</Text>
+          </>
+        ) : null}
+      </View>
       <ScrollView
         style={commonStyles.container}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
@@ -101,6 +166,7 @@ export default ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   containerTop: {
     flex: 1,
@@ -168,5 +234,10 @@ const styles = StyleSheet.create({
   completeButtonText: {
     color: "#fff",
     fontSize: 14,
+  },
+  imageIcon: {
+    width: 55,
+    height: 55,
+    borderRadius: 27.5,
   },
 });
