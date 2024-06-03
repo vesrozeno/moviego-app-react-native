@@ -9,11 +9,13 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  Vibration,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import * as Haptics from "expo-haptics";
 
 //const { width } = Dimensions.get("window");
 const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
@@ -38,8 +40,12 @@ export default ({ title, list_type }) => {
     fetchMovies();
   }, []);
 
-  const handlePress = (movie) => {
+  const handleLongPress = (movie) => {
     setSelectedMovie(movie);
+  };
+
+  const handlePress = (id) => {
+    navigation.navigate("MovieStack", { movieId: id });
   };
 
   const closeModal = () => {
@@ -52,7 +58,14 @@ export default ({ title, list_type }) => {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity activeOpacity={0.7} onPress={() => handlePress(item)}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onLongPress={() => (
+        handleLongPress(item),
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+      )}
+      onPress={() => handlePress(item.id)}
+    >
       <Image
         source={{ uri: `https://image.tmdb.org/t/p/w500${item.poster_path}` }}
         resizeMode="cover"

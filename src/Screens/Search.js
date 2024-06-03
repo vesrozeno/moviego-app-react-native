@@ -1,6 +1,18 @@
 import React, { useState, useContext } from "react";
 import { SearchBar } from "@rneui/themed";
-import { View, TextInput, Button, FlatList, Image, Text, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView, StatusBar } from 'react-native';
+import {
+  View,
+  TextInput,
+  Button,
+  FlatList,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+  SafeAreaView,
+  StatusBar,
+} from "react-native";
 import axios from "axios";
 import TopBar from "../components/TopBar";
 import commonStyles from "../../styles/commonStyles";
@@ -8,22 +20,24 @@ import MovieList from "./MovieList";
 
 const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
 
-
 export default (props) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const searchMovies = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`https://api.themoviedb.org/3/search/movie`, {
-        params: {
-          api_key: TMDB_API_KEY,
-          query: query,
-          language: 'pt-BR',
-        },
-      });
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/search/movie`,
+        {
+          params: {
+            api_key: TMDB_API_KEY,
+            query: query,
+            language: "pt-BR",
+          },
+        }
+      );
       setMovies(response.data.results);
     } catch (error) {
       console.error(error);
@@ -66,8 +80,12 @@ export default (props) => {
           />
         </View>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" style={styles.loading} />
-        ): (
+          <ActivityIndicator
+            size="large"
+            color="#0000ff"
+            style={styles.loading}
+          />
+        ) : (
           <MovieList movies={movies} />
         )}
       </View>

@@ -29,7 +29,7 @@ export default ({ route, navigation }) => {
 
       let userDataFound = null;
       parsedData.forEach((element) => {
-        if (element.id_user === id_user) {
+        if (element.id_user === id_user.id_user) {
           userDataFound = element;
         }
       });
@@ -60,38 +60,22 @@ export default ({ route, navigation }) => {
     <SafeAreaView style={commonStyles.container}>
       <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
       <TopBar></TopBar>
-      <View>
-        <View
-          style={{
-            marginTop: 10,
-            marginRight: 10,
-            alignItems: "flex-end",
-          }}
-        >
-          <TouchableOpacity style={styles.edit_button}>
-            <Text style={styles.edit_text}>editar dados</Text>
-            <FontAwesome name="pencil" size={15} color="#ccc" />
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            marginBottom: 30,
-            paddingTop: 5,
-          }}
-        >
-          {userData && userData.image ? (
-            <>
-              <Image
-                source={{ uri: userData.image }}
-                style={styles.imageIcon}
-              />
-              <Text style={styles.name_text}>{userData.name}</Text>
-            </>
-          ) : null}
-        </View>
+      <View
+        style={{
+          marginTop: 10,
+          marginRight: 10,
+          alignItems: "flex-end",
+        }}
+      ></View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          marginBottom: 30,
+          paddingTop: 5,
+        }}
+      ></View>
       <ScrollView
         style={commonStyles.container}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
@@ -119,8 +103,15 @@ export default ({ route, navigation }) => {
                 paddingTop: 5,
               }}
             >
-              <FontAwesome name="user-circle" size={55} color="#ccc" />
-              <Text style={styles.name_text}>Nome do usuário</Text>
+              {userData && userData.image ? (
+                <>
+                  <Image
+                    source={{ uri: userData.image }}
+                    style={styles.imageIcon}
+                  />
+                  <Text style={styles.name_text}>{userData.name}</Text>
+                </>
+              ) : null}
             </View>
 
             <View
@@ -175,6 +166,7 @@ export default ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   containerTop: {
     flex: 1,
