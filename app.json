@@ -13,8 +13,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.breau.moviegoappreactnative"
-    }
-    "version": "1.0.0",
+    },
     "plugins": [
       [
         "expo-image-picker",
