@@ -7,6 +7,8 @@ import {
   FlatList,
   Dimensions,
   Image,
+  SafeAreaView,
+  ScrollView,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 // Custom Components
@@ -40,55 +42,61 @@ const minhasListas = [
 
 export default ({ route, navigation }) => {
   return (
-    <View style={commonStyles.container}>
+    <SafeAreaView style={commonStyles.container}>
       <TopBar></TopBar>
+      <ScrollView
+        style={commonStyles.container}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      >
+        <View style={commonStyles.container}>
+          <View style={styles.container}>
+            <View style={styles.containerTitulo}>
+              <Text style={styles.titulo}>Minhas Listas</Text>
+              <TouchableOpacity style={styles.botao} activeOpacity={0.7}>
+                <Text style={styles.textoBotao}>Nova lista</Text>
+                <AntDesign name="pluscircle" size={24} color="#FFF" />
+              </TouchableOpacity>
+            </View>
 
-      <View style={styles.container}>
-        <View style={styles.containerTitulo}>
-          <Text style={styles.titulo}>Minhas Listas</Text>
-          <TouchableOpacity style={styles.botao} activeOpacity={0.7}>
-            <Text style={styles.textoBotao}>Nova lista</Text>
-            <AntDesign name="pluscircle" size={24} color="#FFF" />
-          </TouchableOpacity>
+            <FlatList
+              data={minhasListas}
+              keyExtractor={(item) => String(item)}
+              snapToAlignment={"start"}
+              scrollEventThrottle={16}
+              decelerationRate={"fast"}
+              style={styles.flatListStyle}
+              renderItem={({ item }) => (
+                <>
+                  <View style={styles.containerFlexList}>
+                    <View
+                      style={{
+                        backgroundColor: item.color,
+                        height: width / 2.4,
+                        width: width * 0.3,
+                        marginHorizontal: 7,
+                        borderRadius: 12,
+                      }}
+                    >
+                      <TouchableOpacity
+                        activeOpacity={0.7}
+                        onPress={() => handlePress()}
+                      >
+                        <Image
+                          source={require("../../assets/relampagoMcQueen.jpg")}
+                          resizeMode="repeat"
+                          style={{ height: width / 2.4, width: width * 0.3 }}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <Text style={styles.nomeLista}>{item.name}</Text>
+                  </View>
+                </>
+              )}
+            />
+          </View>
         </View>
-
-        <FlatList
-          data={minhasListas}
-          keyExtractor={(item) => String(item)}
-          snapToAlignment={"start"}
-          scrollEventThrottle={16}
-          decelerationRate={"fast"}
-          style={styles.flatListStyle}
-          renderItem={({ item }) => (
-            <>
-              <View style={styles.containerFlexList}>
-                <View
-                  style={{
-                    backgroundColor: item.color,
-                    height: width / 2.4,
-                    width: width * 0.3,
-                    marginHorizontal: 7,
-                    borderRadius: 12,
-                  }}
-                >
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => handlePress()}
-                  >
-                    <Image
-                      source={require("../../assets/relampagoMcQueen.jpg")}
-                      resizeMode="repeat"
-                      style={{ height: width / 2.4, width: width * 0.3 }}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <Text style={styles.nomeLista}>{item.name}</Text>
-              </View>
-            </>
-          )}
-        />
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
