@@ -67,15 +67,6 @@ export default ({ route, navigation }) => {
           alignItems: "flex-end",
         }}
       ></View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          marginBottom: 30,
-          paddingTop: 5,
-        }}
-      ></View>
       <ScrollView
         style={commonStyles.container}
         contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
@@ -84,23 +75,12 @@ export default ({ route, navigation }) => {
           <View>
             <View
               style={{
-                marginTop: 10,
-                marginRight: 25,
-                alignItems: "flex-end",
-              }}
-            >
-              <TouchableOpacity style={styles.edit_button}>
-                <Text style={styles.edit_text}>editar dados</Text>
-                <FontAwesome name="pencil" size={15} color="#ccc" />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
                 flexDirection: "row",
-                justifyContent: "space-evenly",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 marginBottom: 30,
                 paddingTop: 5,
+                paddingHorizontal: 85,
               }}
             >
               {userData && userData.image ? (
@@ -173,21 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#323232",
   },
 
-  edit_button: {
-    backgroundColor: "#4E4C4C",
-    borderRadius: 13,
-    width: 137,
-    marginLeft: 25,
-    height: 30,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  edit_text: {
-    color: "#ccc",
-    marginRight: 5,
-    fontSize: 15,
-  },
   name_text: {
     color: "#ccc",
     fontWeight: "bold",
