@@ -67,6 +67,19 @@ export default ({ route }) => {
     return `${hours}h ${minutes}m`;
   };
 
+  const formatDate= (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    
+    const months = [
+        'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 
+        'jul', 'ago', 'set', 'out', 'nov', 'dez'
+    ];
+
+    const monthName = months[parseInt(month, 10) - 1];
+
+    return `${day} de ${monthName}. de ${year}`;
+}
+
   return (
     <ScrollView style={styles.container}>
       <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
@@ -90,7 +103,7 @@ export default ({ route }) => {
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{movieDetails.title}</Text>
-            <Text style={styles.year}>{movieDetails.release_date}</Text>
+            <Text style={styles.year}>{formatDate(movieDetails.release_date)}</Text>
             <Text style={styles.subtitle}>
               DIRIGIDO POR:{" "}
               <Text style={styles.director}>{movieDetails.director}</Text>
@@ -115,7 +128,6 @@ export default ({ route }) => {
         <Text style={styles.sectionTitle}>Nota:</Text>
         <View style={styles.ratingContainer}>
           <Text style={styles.rating}>{movieDetails.vote_average}/10</Text>
-          {/* <FontAwesome name="star" size={24} color="gold" /> */}
         </View>
         <View style={styles.actionContainer}>
           <TouchableOpacity style={styles.actionButton}>

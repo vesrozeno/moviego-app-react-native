@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { SearchBar } from "@rneui/themed";
-import { View, TextInput, Button, FlatList, Image, Text, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, TextInput, Button, FlatList, Image, Text, StyleSheet, TouchableOpacity, ActivityIndicator, SafeAreaView, StatusBar } from 'react-native';
 import axios from "axios";
 import TopBar from "../components/TopBar";
 import commonStyles from "../../styles/commonStyles";
@@ -10,16 +10,9 @@ const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
 
 
 export default (props) => {
-  const initialState = "";
-  //const [searchQuery, setSearchQuery] = useState(initialState);
-
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  // const onChangeSearch = (query) => {
-  //   setSearchQuery(query);
-  // };
 
   const searchMovies = async () => {
     setLoading(true);

@@ -9,25 +9,16 @@ export default function MovieList({ movies }) {
         navigation.navigate("MovieStack", { movieId: id });
     };
 
-    const formatRuntime = (runtime) => {
-        const hours = Math.floor(runtime / 60);
-        const minutes = runtime % 60;
-        return `${hours}h ${minutes}m`;
-    };
-
     const formatDate= (dateString) => {
         const [year, month, day] = dateString.split('-');
         
-        // Mapeando o número do mês para o nome do mês abreviado
         const months = [
             'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
             'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
         ];
     
-        // Convertendo o número do mês para o nome do mês abreviado
         const monthName = months[parseInt(month, 10) - 1];
     
-        // Formatando a data como 'mmm de YYYY'
         return `${monthName}. de ${year}`;
     }
     
