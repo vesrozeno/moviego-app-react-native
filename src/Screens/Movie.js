@@ -194,9 +194,6 @@ export default ({ route }) => {
               <Text style={styles.actionText}>Quero ver</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>Adicionar à listas</Text>
-          </TouchableOpacity>
         </View>
 
         <View style={styles.cast}>

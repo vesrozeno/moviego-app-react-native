@@ -15,6 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 // Custom Components
 import commonStyles from "../../styles/commonStyles";
 import TopBar from "../components/TopBar";
+import { Divider } from "react-native-paper";
 
 const { width } = Dimensions.get("window");
 
@@ -29,14 +30,6 @@ const minhasListas = [
   },
   {
     name: "Quero ver",
-    color: "#00B3E6",
-  },
-  {
-    name: "Lista Personalizada",
-    color: "#00B3E6",
-  },
-  {
-    name: "Lista Personalizada",
     color: "#00B3E6",
   },
 ];
@@ -54,36 +47,31 @@ export default ({ route, navigation }) => {
           <View style={styles.container}>
             <View style={styles.containerTitulo}>
               <Text style={styles.titulo}>Minhas Listas</Text>
-              <TouchableOpacity style={styles.botao} activeOpacity={0.7}>
-                <Text style={styles.textoBotao}>Nova lista</Text>
-                <AntDesign name="pluscircle" size={24} color="#FFF" />
-              </TouchableOpacity>
             </View>
             {minhasListas.map((item, index) => (
               <>
                 <View style={styles.containerFlexList} key={index}>
-                  <View
-                    style={{
-                      backgroundColor: item.color,
-                      height: width / 2.4,
-                      width: width * 0.3,
-                      marginHorizontal: 7,
-                      borderRadius: 12,
-                    }}
-                  >
+                  <View>
                     <TouchableOpacity
                       activeOpacity={0.7}
                       onPress={() => handlePress()}
                     >
                       <Image
                         source={require("../../assets/relampagoMcQueen.jpg")}
-                        resizeMode="repeat"
-                        style={{ height: width / 2.4, width: width * 0.3 }}
+                        resizeMode="cover"
+                        style={{
+                          height: 131,
+                          width: 88,
+                          borderRadius: 5,
+                          borderColor: "gray",
+                          borderWidth: 0.4,
+                        }}
                       />
                     </TouchableOpacity>
                   </View>
                   <Text style={styles.nomeLista}>{item.name}</Text>
                 </View>
+                <Divider style={{ backgroundColor: "gray" }} />
               </>
             ))}
           </View>
@@ -99,18 +87,18 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   containerTitulo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginLeft: 10,
+    alignItems: "flex-start",
+    paddingHorizontal: 15,
   },
   containerFlexList: {
-    marginTop: 30,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     flexDirection: "row",
   },
   titulo: {
     color: "#FFF",
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 25,
+    fontWeight: "regular",
   },
   nomeLista: {
     fontSize: 20,
