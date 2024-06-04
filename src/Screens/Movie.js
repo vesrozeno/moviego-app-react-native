@@ -14,8 +14,6 @@ import axios from "axios";
 import { ListItem } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { StarRatingDisplay } from "react-native-star-rating-widget";
-import { Divider } from "@rneui/themed";
-import Icon from "react-native-vector-icons/Ionicons";
 const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
 
 export default ({ route }) => {
