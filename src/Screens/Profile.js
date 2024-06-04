@@ -18,8 +18,6 @@ import { setItem, getItem } from "../storage/AsyncStorage";
 
 export default ({ route, navigation }) => {
   const { id_user } = route.params;
-  console.log(id_user);
-
   const [userData, setUserData] = useState(null);
 
   const searchUserData = async (id_user) => {
@@ -54,33 +52,19 @@ export default ({ route, navigation }) => {
     })();
   }, []);
 
-  console.log(userData);
-
   return (
     <SafeAreaView style={commonStyles.container}>
-      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
-      <TopBar></TopBar>
-      <View
-        style={{
-          marginTop: 10,
-          marginRight: 10,
-          alignItems: "flex-end",
-        }}
-      ></View>
-      <ScrollView
-        style={commonStyles.container}
-        contentContainerStyle={{ paddingBottom: 100, paddingTop: 20 }}
-      >
+      <>
+        <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
+        <TopBar></TopBar>
         <View style={styles.containerTop}>
           <View>
             <View
               style={{
-                flexDirection: "row",
+                flexDirection: "column",
                 justifyContent: "flex-start",
                 alignItems: "center",
                 marginBottom: 30,
-                paddingTop: 5,
-                paddingHorizontal: 85,
               }}
             >
               {userData && userData.image ? (
@@ -91,46 +75,9 @@ export default ({ route, navigation }) => {
                   />
                   <Text style={styles.name_text}>{userData.name}</Text>
                 </>
-              ) : null}
-            </View>
-
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {/*Alterar as navigations*/}
-              <TouchableOpacity
-                style={styles.statsButton}
-                onPress={() => navigation.navigate("SignInStack")}
-              >
-                <View style={{ flexDirection: "column" }}>
-                  <FontAwesome name="eye" size={30} color="#ccc" />
-                  <Text style={styles.tinyButtonText}>Já vi</Text>
-                </View>
-                <Text style={styles.statsButtonText}>100 filmes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.statsButton}
-                onPress={() => navigation.navigate("SignInStack")}
-              >
-                <View style={{ flexDirection: "column" }}>
-                  <FontAwesome name="star" size={30} color="#ccc" />
-                  <Text style={styles.tinyButtonText}>Favoritos</Text>
-                </View>
-                <Text style={styles.statsButtonText}>56 filmes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.statsButton}
-                onPress={() => navigation.navigate("SignInStack")}
-              >
-                <View style={{ flexDirection: "column" }}>
-                  <FontAwesome name="list" size={30} color="#ccc" />
-                  <Text style={styles.tinyButtonText}>Quero ver</Text>
-                </View>
-                <Text style={styles.statsButtonText}>89 filmes</Text>
-              </TouchableOpacity>
+              ) : (
+                <FontAwesome name="user-circle" size={150} color="#ccc" />
+              )}
             </View>
 
             <View style={{ alignItems: "center" }}>
@@ -143,7 +90,7 @@ export default ({ route, navigation }) => {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </>
     </SafeAreaView>
   );
 };
@@ -152,12 +99,13 @@ const styles = StyleSheet.create({
   containerTop: {
     flex: 1,
     backgroundColor: "#323232",
+    paddingVertical: 100,
   },
 
   name_text: {
     color: "#ccc",
     fontWeight: "bold",
-    fontSize: 24,
+    fontSize: 28,
     marginTop: 5,
     padding: 10,
   },
@@ -178,32 +126,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  statsButton: {
-    marginBottom: 10,
-    backgroundColor: "#4E4C4C",
-    borderRadius: 12,
-    width: 235,
-    height: 110,
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    flexDirection: "row",
-  },
-  statsButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 24,
-  },
-  tinyButtonText: {
-    color: "#fff",
-    fontSize: 11,
-  },
   completeButtonText: {
     color: "#fff",
     fontSize: 14,
   },
   imageIcon: {
-    width: 55,
-    height: 55,
-    borderRadius: 27.5,
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: "gray",
   },
 });
