@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   StatusBar,
+  Alert,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -87,7 +88,16 @@ export default ({ route, navigation }) => {
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity
             style={styles.completeButton}
-            onPress={() => saveUserData(id_user, name, image)}
+            onPress={() => {
+              if (name.trim() !== "") {
+                saveUserData(id_user, name, image);
+              } else {
+                Alert.alert(
+                  "Campo Vazios",
+                  "Por favor, preencha todos os campos antes de criar uma conta."
+                );
+              }
+            }}
           >
             <Text style={styles.completeButtonText}>CONCLUIR</Text>
           </TouchableOpacity>
