@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
   StatusBar,
-  Alert
+  Alert,
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -32,6 +32,8 @@ export default ({ route, navigation }) => {
       await setItem("@credentials", JSON.stringify(parsedData));
 
       console.log("Credenciais salvas com sucesso", newCredentials);
+      setEmail("");
+      setPassword("");
       navigation.navigate("ProfileSetupStack", { id_user });
     } catch (error) {
       console.error("Erro ao salvar credenciais: ", error);
@@ -76,8 +78,8 @@ export default ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.createButton}
             onPress={() => {
-              if(email.trim() !== '' && password.trim() != ''){
-                createAccount(email, password)
+              if (email.trim() !== "" && password.trim() != "") {
+                createAccount(email, password);
               } else {
                 Alert.alert(
                   "Campos Vazios",
@@ -93,7 +95,11 @@ export default ({ route, navigation }) => {
       <Text style={styles.loginButtonText}>Já tem uma conta?</Text>
       <TouchableOpacity
         style={styles.loginButton}
-        onPress={() => navigation.navigate("SignInStack")}
+        onPress={() => {
+          setEmail("");
+          setPassword("");
+          navigation.navigate("SignInStack");
+        }}
       >
         <Text style={styles.createButtonText}>ENTRAR</Text>
       </TouchableOpacity>

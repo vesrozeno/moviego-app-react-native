@@ -32,6 +32,8 @@ export default ({ route, navigation }) => {
 
       if (userFound) {
         console.log("Usuário encontrado: ", userFound);
+        setEmail("");
+        setPassword("");
         navigation.navigate("Home", { id_user });
       } else {
         console.log("Usuário não encontrado.");
@@ -80,8 +82,8 @@ export default ({ route, navigation }) => {
           <TouchableOpacity
             style={styles.createButton}
             onPress={() => {
-              if(email.trim() !== '' && password.trim() !== ''){
-                searchAccount(email, password)
+              if (email.trim() !== "" && password.trim() !== "") {
+                searchAccount(email, password);
               } else {
                 Alert.alert(
                   "Campos Vazios",
@@ -98,7 +100,11 @@ export default ({ route, navigation }) => {
       <TouchableOpacity style={styles.loginButton}>
         <Text
           style={styles.createButtonText}
-          onPress={() => navigation.navigate("SignUpStack")}
+          onPress={() => {
+            setEmail("");
+            setPassword("");
+            navigation.navigate("SignUpStack");
+          }}
         >
           CRIAR
         </Text>

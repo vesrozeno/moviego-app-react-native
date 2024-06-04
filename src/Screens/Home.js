@@ -12,7 +12,7 @@ export default ({ route, navigation }) => {
       <ScrollView contentContainerStyle={{ paddingBottom: 100, paddingTop: 5 }}>
         <View style={commonStyles.container}>
           <Carrosel title="Nos cinemas" list_type={"now_playing"} />
-          <Carrosel title="Popular" list_type={"popular"} id_user={id_user} />
+          <Carrosel title="Popular" list_type={"popular"} />
           <Carrosel title="Melhor avaliados" list_type={"top_rated"} />
           <Carrosel title="Lançamentos" list_type={"upcoming"} />
         </View>
