@@ -3,16 +3,14 @@
     "name": "moviego-app-react-native",
     "slug": "moviego-app-react-native",
     "version": "1.0.0",
-    "extra": {
-      "eas": {
-        "projectId": "a9afe049-39cc-4c44-9f56-0d977f77bb65"
-      }
-    },
     "android": {
-      "package": "com.breau.moviegoappreactnative"
+      "package": "com.moviegoappreactnative",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "ios": {
-      "bundleIdentifier": "com.breau.moviegoappreactnative"
+      "bundleIdentifier": "com.moviegoappreactnative"
     },
     "plugins": [
       [
@@ -21,6 +19,11 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "77548d0c-4bff-4b02-9d8f-13df02066899"
+      }
+    }
   }
 }
