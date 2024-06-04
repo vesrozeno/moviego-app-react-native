@@ -17,27 +17,16 @@ import { StarRatingDisplay } from "react-native-star-rating-widget";
 import { Divider } from "@rneui/themed";
 import Icon from "react-native-vector-icons/Ionicons";
 const TMDB_API_KEY = "8bb51d05c8c98d7ff15be6ae8b9282bb";
-import { setItem, getItem } from "../storage/AsyncStorage";
 
-export default ({ route, navigation }) => {
+export default ({ route }) => {
   const [expanded, setExpanded] = useState(false);
   const [cast, setCast] = useState(false);
   const [seen, setSeen] = useState(false); // Depois mudar aqui pra receber se o filme já está em alguma dessas listas
   const [fav, setFav] = useState(false);
   const [wlist, setWList] = useState(false);
-  const { movieId, id_user } = route.params;
+  const { movieId } = route.params;
   const [movieDetails, setMovieDetails] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const searchUserData = async (id_user) => {
-    try {
-      const storedData = await getItem(`${id_user}`);
-      const parsedData = storedData ? JSON.parse(storedData) : [[], [], []];
-      return parsedData;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
@@ -45,40 +34,6 @@ export default ({ route, navigation }) => {
   const toggleCast = () => {
     setCast(!cast);
   };
-  const toggleSeen = async (movieId) => {
-    setSeen(!seen);
-    const lists = await searchUserData(id_user);
-
-    list = lists[0]; //seen_list
-    list.push(movieId);
-
-    const newData = [list, lists[1], lists[2]];
-    await setItem(`${id_user}`, JSON.stringify(newData));
-    console.log("Filme salvo com sucesso", newData);
-  };
-  const toggleFav = async () => {
-    setFav(!fav);
-    const lists = await searchUserData(id_user);
-
-    list = lists[1]; //seen_list
-    list.push(movieId);
-
-    const newData = [lists[0], list, lists[2]];
-    await setItem(`${id_user}`, JSON.stringify(newData));
-    console.log("Filme salvo com sucesso", newData);
-  };
-  const toggleWList = async () => {
-    setWList(!wlist);
-    const lists = await searchUserData(id_user);
-
-    list = lists[2]; //seen_list
-    list.push(movieId);
-
-    const newData = [lists[0], lists[1], list];
-    await setItem(`${id_user}`, JSON.stringify(newData));
-    console.log("Filme salvo com sucesso", newData);
-  };
-
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
@@ -109,41 +64,6 @@ export default ({ route, navigation }) => {
 
     fetchMovieDetails();
   }, [movieId]);
-
-  useEffect(() => {
-    async function aaa() {
-      const lists = await searchUserData(id_user);
-
-      list = lists[0]; //seen_list
-
-      // Check if the movie ID is already in the list
-      if (list && list.length > 0) {
-        let movieInList = list.includes(movieId);
-        if (movieInList) {
-          setSeen(true);
-        }
-      }
-
-      list1 = lists[1]; //seen_list
-      movieInList = false;
-      if (list1 && list1.length > 0) {
-        let movieInList = list1.includes(movieId);
-        if (movieInList) {
-          setFav(true);
-        }
-      }
-
-      list2 = lists[2]; //seen_list
-      movieInList = false;
-      if (list2 && list2.length > 0) {
-        let movieInList = list2.includes(movieId);
-        if (movieInList) {
-          setWList(true);
-        }
-      }
-    }
-    aaa();
-  }, []);
 
   if (loading) {
     return (
@@ -236,36 +156,6 @@ export default ({ route, navigation }) => {
               starSize={20}
               enableHalfStar={1}
             />
-          </View>
-
-          <View style={styles.actionContainer}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => toggleSeen(movieId)}
-            >
-              <Icon
-                name={seen ? "eye" : "eye-outline"}
-                size={50}
-                color="#fff"
-              />
-              <Text style={styles.actionText}>Já vi</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton} onPress={toggleFav}>
-              <Icon
-                name={fav ? "star" : "star-outline"}
-                size={50}
-                color="#fff"
-              />
-              <Text style={styles.actionText}>Favoritos</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton} onPress={toggleWList}>
-              <Icon
-                name={wlist ? "time" : "time-outline"}
-                size={50}
-                color="#fff"
-              />
-              <Text style={styles.actionText}>Quero ver</Text>
-            </TouchableOpacity>
           </View>
         </View>
 

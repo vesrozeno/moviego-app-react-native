@@ -31,7 +31,6 @@ export default function HomeNavigationTabs({ route }) {
       <Tab.Screen
         name="HomeTab"
         component={HomeNavigation}
-        initialParams={{ id_user: id_user }}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
@@ -53,22 +52,6 @@ export default function HomeNavigationTabs({ route }) {
               <Ionicons
                 size={25}
                 name={focused ? "search" : "search-outline"}
-                color={focused ? "white" : "gray"}
-              />
-            </>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="ListsTab"
-        component={ListsNavigation}
-        initialParams={{ id_user: id_user }}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <>
-              <Ionicons
-                size={25}
-                name={focused ? "list" : "list-outline"}
                 color={focused ? "white" : "gray"}
               />
             </>

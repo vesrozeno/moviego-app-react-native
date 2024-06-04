@@ -129,41 +129,6 @@ export default ({ title, list_type, id_user }) => {
               {formatDate(selectedMovie.release_date)}
             </Text>
             <View style={styles.modalContent}>
-              <View style={styles.actionContainer}>
-                <TouchableOpacity
-                  style={styles.actionButton}
-                  onPress={toggleSeen}
-                >
-                  <Icon
-                    name={seen ? "eye" : "eye-outline"}
-                    size={50}
-                    color="#fff"
-                  />
-                  <Text style={styles.actionText}>Já vi</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.actionButton}
-                  onPress={toggleFav}
-                >
-                  <Icon
-                    name={fav ? "star" : "star-outline"}
-                    size={50}
-                    color="#fff"
-                  />
-                  <Text style={styles.actionText}>Favoritos</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.actionButton}
-                  onPress={toggleWList}
-                >
-                  <Icon
-                    name={wlist ? "time" : "time-outline"}
-                    size={50}
-                    color="#fff"
-                  />
-                  <Text style={styles.actionText}>Quero ver</Text>
-                </TouchableOpacity>
-              </View>
               <View>
                 <TouchableHighlight
                   style={styles.actionButtonText}

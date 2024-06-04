@@ -6,11 +6,9 @@ import SignIn from "../Screens/SignIn";
 import SignUp from "../Screens/SignUp";
 import Home from "../Screens/Home";
 import Search from "../Screens/Search";
-import Lists from "../Screens/Lists";
 import Profile from "../Screens/Profile";
 import ProfileSetup from "../Screens/ProfileSetup";
 import Movie from "../Screens/Movie";
-import ViewList from "../Screens/ViewList";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,13 +59,11 @@ export function LoginNavigation({ navigation }) {
   );
 }
 export function HomeNavigation({ route, navigation }) {
-  const { id_user } = route.params;
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="HomeStack"
         component={Home}
-        initialParams={{ id_user: id_user }}
         options={{
           headerShown: false,
           title: "Home",
@@ -111,24 +107,14 @@ export function SearchNavigation({ navigation }) {
 }
 
 export function ListsNavigation({ route, navigation }) {
-  const id_user = route.params;
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="ListsStack"
         component={Lists}
-        initialParams={{ id_user: id_user }}
         options={{
           headerShown: false,
           title: "LISTS",
-        }}
-      />
-      <Stack.Screen
-        name="ViewList"
-        component={ViewList}
-        options={{
-          headerShown: false,
-          title: "VIEWLISTS",
         }}
       />
     </Stack.Navigator>
