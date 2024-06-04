@@ -8,6 +8,7 @@ import {
   Image,
   StatusBar,
   Alert,
+  ScrollView,
 } from "react-native";
 import uuid from "react-native-uuid";
 
@@ -41,69 +42,85 @@ export default ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
-      <Image source={require("../img/moviego-big.png")} style={styles.logo} />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={styles.title}>CRIE SUA CONTA:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="e-mail"
-          placeholderTextColor="#4E4C4C"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          onChangeText={(newText) => setEmail(newText)}
-          defaultValue={email}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="senha"
-          placeholderTextColor="#4E4C4C"
-          secureTextEntry
-          onChangeText={(newText) => setPassword(newText)}
-          defaultValue={password}
-        />
-        <View
-          style={{
-            justifyContent: "flex-end",
-            marginLeft: 175,
-          }}
+
+      <View style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
         >
-          <TouchableOpacity
-            style={styles.createButton}
-            onPress={() => {
-              if (email.trim() !== "" && password.trim() != "") {
-                createAccount(email, password);
-              } else {
-                Alert.alert(
-                  "Campos Vazios",
-                  "Por favor, preencha todos os campos antes de criar uma conta."
-                );
-              }
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Image
+              source={require("../img/moviego-big.png")}
+              style={styles.logo}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Text style={styles.createButtonText}>CRIAR</Text>
-          </TouchableOpacity>
-        </View>
+            <Text style={styles.title}>CRIE SUA CONTA:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="e-mail"
+              placeholderTextColor="#4E4C4C"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onChangeText={(newText) => setEmail(newText)}
+              defaultValue={email}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="senha"
+              placeholderTextColor="#4E4C4C"
+              secureTextEntry
+              onChangeText={(newText) => setPassword(newText)}
+              defaultValue={password}
+            />
+            <View
+              style={{
+                justifyContent: "flex-end",
+                marginLeft: 175,
+              }}
+            >
+              <TouchableOpacity
+                style={styles.createButton}
+                onPress={() => {
+                  if (email.trim() !== "" && password.trim() != "") {
+                    createAccount(email, password);
+                  } else {
+                    Alert.alert(
+                      "Campos Vazios",
+                      "Por favor, preencha todos os campos antes de criar uma conta."
+                    );
+                  }
+                }}
+              >
+                <Text style={styles.createButtonText}>CRIAR</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.container}>
+            <Text style={styles.loginButtonText}>Já tem uma conta?</Text>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => {
+                setEmail("");
+                setPassword("");
+                navigation.navigate("SignInStack");
+              }}
+            >
+              <Text style={styles.createButtonText}>ENTRAR</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
-      <Text style={styles.loginButtonText}>Já tem uma conta?</Text>
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => {
-          setEmail("");
-          setPassword("");
-          navigation.navigate("SignInStack");
-        }}
-      >
-        <Text style={styles.createButtonText}>ENTRAR</Text>
-      </TouchableOpacity>
-    </View>
+    </>
   );
 };
 
