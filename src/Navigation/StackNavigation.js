@@ -6,9 +6,9 @@ import SignIn from "../Screens/SignIn";
 import SignUp from "../Screens/SignUp";
 import Home from "../Screens/Home";
 import Search from "../Screens/Search";
-import Lists from "../Screens/Lists";
 import Profile from "../Screens/Profile";
 import ProfileSetup from "../Screens/ProfileSetup";
+import Movie from "../Screens/Movie";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,7 +58,7 @@ export function LoginNavigation({ navigation }) {
     </Stack.Navigator>
   );
 }
-export function HomeNavigation({ navigation }) {
+export function HomeNavigation({ route, navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -67,6 +67,15 @@ export function HomeNavigation({ navigation }) {
         options={{
           headerShown: false,
           title: "Home",
+        }}
+      />
+
+      <Stack.Screen
+        name="MovieStack"
+        component={Movie}
+        options={{
+          headerShown: false,
+          title: "Movie",
         }}
       />
     </Stack.Navigator>
@@ -84,11 +93,20 @@ export function SearchNavigation({ navigation }) {
           title: "SEARCH",
         }}
       />
+
+      <Stack.Screen
+        name="MovieStack"
+        component={Movie}
+        options={{
+          headerShown: false,
+          title: "Movie",
+        }}
+      />
     </Stack.Navigator>
   );
 }
 
-export function ListsNavigation({ navigation }) {
+export function ListsNavigation({ route, navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -103,12 +121,14 @@ export function ListsNavigation({ navigation }) {
   );
 }
 
-export function ProfileNavigation({ navigation }) {
+export function ProfileNavigation({ route, navigation }) {
+  const id_user = route.params;
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="ProfileStack"
         component={Profile}
+        initialParams={{ id_user: id_user }}
         options={{
           headerShown: false,
           title: "Profile",

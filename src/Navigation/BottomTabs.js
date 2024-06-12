@@ -7,21 +7,21 @@ import {
   ListsNavigation,
   ProfileNavigation,
 } from "./StackNavigation";
+
 const Tab = createBottomTabNavigator();
-export default function HomeNavigationTabs() {
+
+export default function HomeNavigationTabs({ route }) {
+  const { id_user } = route.params;
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: "#4E4C4C",
-          paddingTop: 7,
-          borderTopLeftRadius: 18,
-          borderTopRightRadius: 18,
-          borderLeftWidth: 0.2,
-          borderRightWidth: 0.2,
-          borderTopWidth: 0.2,
-          height: 61,
+          borderTopWidth: 0.5,
+          borderTopColor: "gray",
+          height: "7.5%",
           position: "absolute",
           overflow: "hidden",
         },
@@ -35,7 +35,7 @@ export default function HomeNavigationTabs() {
           tabBarIcon: ({ focused }) => (
             <>
               <Ionicons
-                size={35}
+                size={25}
                 name={focused ? "home" : "home-outline"}
                 color={focused ? "white" : "gray"}
               />
@@ -50,23 +50,8 @@ export default function HomeNavigationTabs() {
           tabBarIcon: ({ focused }) => (
             <>
               <Ionicons
-                size={35}
+                size={25}
                 name={focused ? "search" : "search-outline"}
-                color={focused ? "white" : "gray"}
-              />
-            </>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="ListsTab"
-        component={ListsNavigation}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <>
-              <Ionicons
-                size={35}
-                name={focused ? "list" : "list-outline"}
                 color={focused ? "white" : "gray"}
               />
             </>
@@ -76,11 +61,12 @@ export default function HomeNavigationTabs() {
       <Tab.Screen
         name="ProfileTab"
         component={ProfileNavigation}
+        initialParams={{ id_user: id_user }}
         options={{
           tabBarIcon: ({ focused }) => (
             <>
               <Ionicons
-                size={35}
+                size={25}
                 name={focused ? "person" : "person-outline"}
                 color={focused ? "white" : "gray"}
               />

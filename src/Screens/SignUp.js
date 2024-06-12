@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,54 +6,121 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  StatusBar,
+  Alert,
+  ScrollView,
 } from "react-native";
+import uuid from "react-native-uuid";
+
+import { setItem, getItem } from "../storage/AsyncStorage";
+
 export default ({ route, navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const createAccount = async (email, password) => {
+    try {
+      // Gera um id para novo usuário
+      id_user = uuid.v4();
+      // Recupera usuários já existentes
+      const storedData = await getItem("@credentials");
+      const parsedData = storedData ? JSON.parse(storedData) : [];
+      // Cria um novo objeto email e senha
+      const newCredentials = { id_user, email, password };
+      // Adiciona novo objeto ao array de credenciais
+      parsedData.push(newCredentials);
+      // Salva o array atualizado de credenciais
+      await setItem("@credentials", JSON.stringify(parsedData));
+
+      console.log("Credenciais salvas com sucesso", newCredentials);
+      setEmail("");
+      setPassword("");
+      navigation.navigate("ProfileSetupStack", { id_user });
+    } catch (error) {
+      console.error("Erro ao salvar credenciais: ", error);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Image source={require("../img/moviego-big.png")} style={styles.logo} />
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={styles.title}>CRIE SUA CONTA:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="e-mail"
-          placeholderTextColor="#4E4C4C"
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="senha"
-          placeholderTextColor="#4E4C4C"
-          secureTextEntry
-        />
-        <View
-          style={{
-            justifyContent: "flex-end",
-            marginLeft: 175,
-          }}
+    <>
+      <StatusBar animated={true} backgroundColor="#4E4C4C" hidden={false} />
+
+      <View style={styles.container}>
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
         >
-          <TouchableOpacity
-            style={styles.createButton}
-            onPress={() => navigation.navigate("ProfileSetupStack")}
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Image
+              source={require("../img/moviego-big.png")}
+              style={styles.logo}
+            />
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            <Text style={styles.createButtonText}>CRIAR</Text>
-          </TouchableOpacity>
-        </View>
+            <Text style={styles.title}>CRIE SUA CONTA:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="e-mail"
+              placeholderTextColor="#4E4C4C"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onChangeText={(newText) => setEmail(newText)}
+              defaultValue={email}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="senha"
+              placeholderTextColor="#4E4C4C"
+              secureTextEntry
+              onChangeText={(newText) => setPassword(newText)}
+              defaultValue={password}
+            />
+            <View
+              style={{
+                justifyContent: "flex-end",
+                marginLeft: 175,
+              }}
+            >
+              <TouchableOpacity
+                style={styles.createButton}
+                onPress={() => {
+                  if (email.trim() !== "" && password.trim() != "") {
+                    createAccount(email, password);
+                  } else {
+                    Alert.alert(
+                      "Campos Vazios",
+                      "Por favor, preencha todos os campos antes de criar uma conta."
+                    );
+                  }
+                }}
+              >
+                <Text style={styles.createButtonText}>CRIAR</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.container}>
+            <Text style={styles.loginButtonText}>Já tem uma conta?</Text>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={() => {
+                setEmail("");
+                setPassword("");
+                navigation.navigate("SignInStack");
+              }}
+            >
+              <Text style={styles.createButtonText}>ENTRAR</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
-      <Text style={styles.loginButtonText}>Já tem uma conta?</Text>
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={() => navigation.navigate("SignInStack")}
-      >
-        <Text style={styles.createButtonText}>ENTRAR</Text>
-      </TouchableOpacity>
-    </View>
+    </>
   );
 };
 
@@ -84,7 +151,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 20,
     fontSize: 14,
-    color: "#fff",
+    color: "#000",
     marginBottom: 15,
   },
   createButton: {

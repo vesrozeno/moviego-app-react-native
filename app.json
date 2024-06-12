@@ -2,6 +2,28 @@
   "expo": {
     "name": "moviego-app-react-native",
     "slug": "moviego-app-react-native",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "android": {
+      "package": "com.moviegoappreactnative",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.moviegoappreactnative"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "77548d0c-4bff-4b02-9d8f-13df02066899"
+      }
+    }
   }
 }
